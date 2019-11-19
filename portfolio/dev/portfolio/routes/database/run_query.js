@@ -7,7 +7,7 @@ exportss.getconn = function(){
     var conn = mysql.createConnection({
       host     : 'localhost',
       user     : 'root',
-      password : '340709',
+      password : 'rootroot',
       database : 'portfolio'
     });
 

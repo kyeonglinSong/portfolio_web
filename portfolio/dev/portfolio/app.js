@@ -70,10 +70,10 @@ app.post('/login', (req, res) => {
     `);}
 });
 
-
+// logout
 app.get('/logout', function(req, res){
     sess = req.session;
-    if(sess.id){
+    if(sess.id){ 
         req.session.destroy(function(err){
             if(err){
                 console.log(err);
@@ -86,7 +86,46 @@ app.get('/logout', function(req, res){
     }
 });
 
+// competition 게시판
+// 1. GET competition
+// 2. GET competiton/:seq
+app.get(['/competition', '/competition/:seq'],(req, res) => {
+    sess = req.session;
 
+    if(!sess.logined) // 로그인 안 된 상태라면 접근안됨
+    {
+        res.send(`
+        <h1>Who are you?</h1>
+        <a href="/">Back </a>
+      `);
+    
+    }
+else{  // 로그인 한 상태만 접근가능
+
+    var sql = 'SELECT * FROM competitions';  // 수상목록들 가져옴. 근데 db에서 아이디인증 가능하면 바꿀거임
+        conn.query(sql, (err, posts, fields) => {
+            var seq = req.params.seq || req.query.seq;
+            console.log(seq);
+            // 만약 competition/:id 로 들어왔다면 (글 상세보기)
+            if(seq) {
+                var sql = 'SELECT * FROM competitions WHERE seq=?'; 
+                conn.query(sql, [seq], (err, posts, fields) => {
+                    if(err){ // 에러가 있으면
+                        console.log(err);
+                    } else { // 에러가 없으면
+                        res.send(posts[0]);
+                    }
+
+                })
+            } else{
+                res.send(posts);
+            }
+        });
+    }
+
+});
+
+// main
 app.post('/main', function(req, res){
     sess = req.session;
     //sess.logined = false;
