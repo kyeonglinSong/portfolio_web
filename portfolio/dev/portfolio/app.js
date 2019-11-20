@@ -113,17 +113,87 @@ else{  // 로그인 한 상태만 접근가능
                     if(err){ // 에러가 있으면
                         console.log(err);
                     } else { // 에러가 없으면
-                        res.send(posts[0]);
+                        res.render('comp/comp_detail', {posts:posts, post:posts[0]})
                     }
 
                 })
             } else{
-                res.send(posts);
+                //res.send(posts);
+                res.render('comp/competition', {posts:posts});
             }
         });
     }
 
 });
+
+
+app.get('/competition/add', (req, res) => {
+    var sql = 'select * from competitions';
+    conn.query(sql, (err, posts, fields) => {
+        if(err){
+            console.log(err);
+        } 
+        res.render('comp/comp_add', {posts:posts});
+    });
+});
+
+// 3. GET competition/:seq/delete
+app.get('/competition/:seq/delete', (req, res) => {
+    var sql = 'select seq, comp_name from competitions';
+    var seq = req.params.seq;
+
+    conn.query(sql, (err, posts, fields) => {
+        var sql = 'select * from competitions where seq=?';
+        conn.query(sql, [seq], (err, posts) => {
+            if(err) {
+                console.log(err);
+                res.status(500).send('internal server error1');
+            } else {
+                if(posts.length === 0) {
+                    console.log('레코드가 없어용');
+                    res.status(500).send('internal server error2');
+                } else {
+                    res.render('comp/comp_delete', {posts:posts, post:posts[0]});
+                }
+            }
+        });
+    });
+});
+
+// 4. POST competition/:seq/delete - yes 버튼을 눌렀을 때 정말 삭제
+app.post('/competition/:seq/delete', (req, res) => {
+    var seq = req.params.seq;
+    var sql = 'delete from competitions where seq=?';
+    conn.query(sql, [seq], (err, result) => {
+        res.redirect('/competition');
+    });
+});
+
+/*
+app.post('/topic/add', (req, res) => {
+    
+    sess = req.session;
+
+    if(!sess.logined) // 로그인 안 된 상태라면 접근안됨
+    {
+        res.send(`
+        <h1>Who are you?</h1>
+        <a href="/">Back </a>
+      `);
+    }
+    else{  // 로그인 한 상태만 접근가능 
+        var comp_name = req.body.comp_name;
+        var comp_org = req.body.comp_org;
+        var award_check = req.body.award_check;
+        var awards_name =  req.body.awards_name;
+        var proj_check = req.body.proj_check;
+        var proj_name = req.body/proj_name;
+        var user_id = req.body.user_id;
+        var sql = 'insert into topic '
+    }
+});
+
+*/
 
 // main
 app.post('/main', function(req, res){

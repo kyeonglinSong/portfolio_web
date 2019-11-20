@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>공모전 추가</title>
+    </head>
+    <body>
+        <div>
+                <h2>공모전 추가</h2>
+        </div>
+        <div>
+            <h4> 공모전 이름 </h4>
+            <input type="text" name="comp_name">
+            <br>
+            <h4> 주최 </h4>
+            <input type="text" name="comp_org">
+            <br>
+            <h4> 수상여부(yes:1 / no:0) </h4>
+            <input type="text" name="award_check">
+            <br>
+            <h4> 상 이름(수상여부 yes인 경우) </h4>
+            <input type="text" name="award_name" value="없으면 비워주세요">
+            <br>
+            <h4> 연관 프로젝트(yes:1 / no:0) </h4>
+            <input type="text" name="proj_check">
+            <br>
+            <h4> 프로젝트명(연관 프로젝트 유무가 yes인 경우) </h4>
+            <input type="text" name="proj_name" value="없으면 비워주세요">
+            <br>
+            <h4> 작성자 id </h4>
+            - 확인을 위하여 아이디를 한번 더 입력해주세요 <br>
+            <input type="text" name="user_id">
+        </div>
+        <div style="text-align: center;">
+                <a href=> <input type="button" value="글 추가"> </a>
+                <a href='/competition'> <input type="button" value="목록으로 돌아가기"> </a>
+        </div>
+    </body>
+</html>

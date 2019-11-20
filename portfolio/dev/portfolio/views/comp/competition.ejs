@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>competition</title> 
+        <script type="text/javascript" src="app.js"></script>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <h1>competitions</h1>
+            <hr>
+        </div>
+        <div>
+            <% for (let i=0 ; i < posts.length ; i++) { %>
+            <p> <a href='/competition/<%= posts[i].seq %>'> 대회 이름</a> :
+                <%= JSON.stringify(posts[i].comp_name) %>
+            </p>
+            <p>주최기관 : <%= JSON.stringify(posts[i].comp_org) %></p>
+            <br>
+            <%}%>
+        </div>
+        <div style="text-align: center;">
+            <p>
+                <form action="competition/add" method="get">
+                    <input type="submit" value="add comp">
+                </form>
+                <a href='../main'> <input type="button" value="main"> </a>
+            </p>
+        </div>
+    </body>
+</html>
