@@ -1,3 +1,5 @@
+var exportsList = module.exports = {};
+
 const express = require('express');
 const http = require('http');
 const str_query = require('./routes/database/all_query');
@@ -5,14 +7,72 @@ const run_query = require('./routes/database/run_query');
 const ejs = require('ejs')
 const bodyParser = require('body-parser')
 
-// db run
-query = str_query.testquery; //쿼리 받아옴
-conn = run_query.getconn()
-query_res = run_query.testrun(conn, query); //쿼리 실행
+const main_router = require('./routes/main_router');  //router of board
+
+// get DB connection
+const conn = run_query.getconn()
 
 //앱 세팅
 app = express();
 app.set('port', 3000);
+
+//get user info START----------------------------------------------------------------------------
+//유저 정보
+var userInfoDict = {};
+
+get_userInfo = function(){
+    console.log("test fn")
+    userInfoDict = {};
+    conn.query(str_query.getUsersID, function(err, res, fields)
+    {
+        if (err)  return console.log(err);
+        console.log(res);
+        if(res.length)
+        {
+            for(var i = 0; i<res.length; i++ )
+            {
+                userInfoDict[res[i]['user_id']] = res[i]['password'];
+            }
+        }
+    });
+
+}
+//get user info END----------------------------------------------------------------------------
+
+
+//get resume info START----------------------------------------------------------------------------
+
+
+let resume = [];
+conn.query(str_query.getResume, function(err, res, fields)
+{
+    if (err)  return console.log(err);
+    if(res.length)
+    {
+        for(var i = 0; i<res.length; i++ )
+        {
+            //console.log(res[i]);
+            resume[resume.length] = {
+                'seq' : res[i]['seq'],
+                'comp_org' : res[i]['comp_org'],
+                'question': res[i]['question'],
+                'answer': res[i]['answer']
+            };
+            // resume.push('hi');
+            // resume[i]['comp_org'] = res[i]['comp_org'];
+            // resume[i]['question'] = res[i]['question'];
+            // resume[i]['answer'] = res[i]['answer'];
+        }
+    }
+    exportsList.resume_res = resume;
+    //console.log(resume);
+});
+//console.log(resume);
+
+//exportsList.resume_res = resume;
+//get resume info END----------------------------------------------------------------------------
+
+
 
 //세션
 var session = require('express-session');
@@ -27,42 +87,43 @@ app.use(session({
 }));
 
 app.get('/', function (req, res) {
+    get_userInfo();
     var sess = req.session;
-    //console.log(sess);
+    console.log(sess);
     if(!sess.logined)
         res.redirect('/login')
     else
         res.redirect('/main')
 });
 
-//회원 정보
-let user = {      //회원 정보
-    user_id: "doky",
-    user_pwd: "1111"
-};
-
 app.get('/login', (req, res) => {
-    sess = req.session;
+    console.log(userInfoDict);
+    //sess = req.session;
     res.render('login'); //세션에 
     //console.log(sess);
 });
 
-
-app.get('/main', (req, res) => {
-    sess = req.session;
-    res.render('main'); //세션에 
-    //console.log(sess);
-});
+app.use('/main', main_router);
 
 //클라에서 보내는 부분
 app.post('/login', (req, res) => {
     sess = req.session;
-    if(req.body.id == user.user_id && req.body.pwd == user.user_pwd){
+
+    // !!!!!  user DB info////-------------------------------------------------------------------------
+    if(req.body.id in userInfoDict){  
+        if(req.body.pwd == userInfoDict[req.body.id]){ 
         sess.logined = true;
         sess.user_id = req.body.id;
-        res.redirect('/main')
-        // res.render('logout', { id: req.session.user_id });
-    } 
+        res.redirect('/')
+        console.log(sess);
+        } 
+        else {
+            res.send(`
+            <h1>Who are you?</h1>
+            <a href="/login">Back </a>
+            `);
+        }
+    }
     else {
     res.send(`
       <h1>Who are you?</h1>
@@ -80,10 +141,80 @@ app.get('/logout', function(req, res){
             }else{
                 res.redirect('/');
             }
-        })
+        });
     }else{
         res.redirect('/');
     }
+});
+
+//signup START----------------------------------------------------------------------------
+app.get('/signup', function(req, res){
+    res.render('login/signup');
+});
+
+app.post('/signup', (req, res) => {
+    
+    var u_id = req.body.id;
+    var u_pwd = req.body.pwd;
+    var u_birth = req.body.birth;
+    var u_email =  req.body.email;
+    var u_phone = req.body.phone;
+    var u_address = req.body.address;
+
+    if(!u_id || !u_pwd || !u_birth || !u_email || !u_phone || !u_address){
+        return res.send(`
+            <h1>Invalid input, try again</h1>
+            <a href="/signup">Back </a>
+        `);
+    }
+    
+    get_userInfo(); //refresh user info
+    if(req.body.id in userInfoDict){
+        return res.send(`
+            <h1>ID already exists!</h1>
+            <a href="/main">Back</a>
+        `);
+    }
+
+    let userinfo = {
+        user_id: u_id,
+        password: u_pwd,
+        birth: u_birth,
+        email: u_email,
+        phone: u_phone,
+        address: u_address
+    };
+    
+    let sql = 'INSERT INTO users SET ?'; 
+
+    conn.query(sql, userinfo, (err, result, fields) => {
+        if(err){ // 에러가 있으면
+            console.log(err);
+        }
+        else {
+            res.send(`
+            <div style="text-align: center;">
+            <h1 style="text-align: center;">SIGN UP success!</h1>
+            <a href="/">go back to the SIGN IN page</a>
+            </div>
+            `);
+        }
+    });
+    
+});
+
+//signup END----------------------------------------------------------------------------
+
+
+// add 실행이 먼저 여기에 걸려야해서 여기랑 이 밑에 get함수 순서 바꿨엉! 
+app.get('/competition/add', (req, res) => {
+    var sql = 'select * from competitions';
+    conn.query(sql, (err, posts, fields) => {
+        if(err){
+            console.log(err);
+        } 
+        res.render('comp/comp_add', {posts:posts});
+    });
 });
 
 // competition 게시판
@@ -127,15 +258,7 @@ else{  // 로그인 한 상태만 접근가능
 });
 
 
-app.get('/competition/add', (req, res) => {
-    var sql = 'select * from competitions';
-    conn.query(sql, (err, posts, fields) => {
-        if(err){
-            console.log(err);
-        } 
-        res.render('comp/comp_add', {posts:posts});
-    });
-});
+
 
 // 3. GET competition/:seq/delete
 app.get('/competition/:seq/delete', (req, res) => {
@@ -194,13 +317,6 @@ app.post('/topic/add', (req, res) => {
 });
 
 */
-
-// main
-app.post('/main', function(req, res){
-    sess = req.session;
-    //sess.logined = false;
-    res.redirect('/logout');
-});
 
 
 //서버 열기

@@ -1,4 +1,8 @@
 
-var exports = module.exports = {};
+var exportsList = module.exports = {};
 
-exports.testquery = "select email from users;"
+exportsList.testquery = "select email from users;"
+
+exportsList.getUsersID = "SELECT user_id, password FROM users;"
+
+exportsList.getResume = "SELECT * FROM resume;"

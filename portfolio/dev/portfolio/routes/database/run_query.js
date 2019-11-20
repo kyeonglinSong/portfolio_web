@@ -1,13 +1,13 @@
-var exportss = module.exports = {};
+var exportsList = module.exports = {};
 
 //connection 얻기
-exportss.getconn = function(){
+exportsList.getconn = function(){
     var mysql = require('mysql');
 
     var conn = mysql.createConnection({
       host     : 'localhost',
       user     : 'root',
-      password : 'rootroot',
+      password : '340709',
       database : 'portfolio'
     });
 
@@ -17,7 +17,7 @@ exportss.getconn = function(){
 }
 
 //커넥션, 쿼리 주면 결과 리스트로 반환
-exportss.testrun = function(conn, query){
+exportsList.testrun = function(conn, query){
 
     var result = [];
 
