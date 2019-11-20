@@ -86,6 +86,38 @@ app.get('/logout', function(req, res){
     }
 });
 
+// 글 추가
+app.get(['/competition/add'], (req, res) => {
+    var sql = 'select * from competitions';
+    conn.query(sql, (err, posts, fields) => {
+        if(err){
+            console.log(err);
+            res.status(500).send('internal server error');
+        } 
+        res.render('comp/comp_add', {posts:posts});
+    });
+});
+
+app.post('/competition/add', (req, res) => {
+    var comp_name = req.body.comp_name || req.query.comp_name;
+    var comp_org = req.body.comp_org || req.query.comp_org;
+    var awards_check = req.body.awards_check;
+    var awards_name =  req.body.awards_name;
+    var proj_check = req.body.proj_check || req.query.proj_check;
+    var proj_name = req.body.proj_name || req.query.proj_name;
+    var user_id = req.body.user_id || req.query.user_id;
+    var sql = 'insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values(?, ?, ?, ?, ?, ?, ?)';
+    conn.query(sql, [comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id], (err, result, fields)=> {
+        if(err){
+            console.log(err);
+            console.log("데이터 추가 에러");
+            res.status(500).send("internal server error");
+        } else {
+            res.redirect('/competition');
+        }
+    });
+});
+
 // competition 게시판
 // 1. GET competition
 // 2. GET competiton/:seq
@@ -127,15 +159,52 @@ else{  // 로그인 한 상태만 접근가능
 });
 
 
-app.get('/competition/add', (req, res) => {
+
+// 글 수정 : GET competition/:seq/edit
+app.get(['/competition/:seq/edit'], (req, res) => {
     var sql = 'select * from competitions';
     conn.query(sql, (err, posts, fields) => {
-        if(err){
-            console.log(err);
-        } 
-        res.render('comp/comp_add', {posts:posts});
+        var seq = req.params.seq;
+        if(seq) {
+            var sql = 'select * from competitions where seq=?';
+            conn.query(sql, [seq], (err, posts, fileds) => {
+                if(err) {
+                    console.log(err);
+                    res.status(500).send('Internal Server Error');
+                } else {
+                    res.render('comp/comp_edit', {posts:posts, post:posts[0]});
+                }
+            });
+        } else {
+            console.log('there is no id');
+            res.status(500).send('Internal Server Error');
+        }
     });
 });
+
+app.post(['/competition/:seq/edit'], (req, res) => {
+    
+    var comp_name = req.body.comp_name;
+    var comp_org = req.body.comp_org;
+    var awards_check = req.body.awards_check;
+    var awards_name =  req.body.awards_name;
+    var proj_check = req.body.proj_check;
+    var proj_name = req.body.proj_name;
+    var user_id = req.body.user_id; 
+    var seq = req.params.seq;
+
+    var sql = 'update competitions set comp_name=?, comp_org=?, awards_check=?, awards_name=?, proj_check=?, proj_name=?, user_id=? where seq=?';
+    conn.query(sql, [comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id, seq], (err, posts, fields) => {
+        if(err){
+            console.log(err);
+            res.status(500).send("internal server error");
+        } else {
+            res.redirect('/competition/'+seq);
+        }
+    });
+});
+
+
 
 // 3. GET competition/:seq/delete
 app.get('/competition/:seq/delete', (req, res) => {
@@ -169,31 +238,6 @@ app.post('/competition/:seq/delete', (req, res) => {
     });
 });
 
-/*
-app.post('/topic/add', (req, res) => {
-    
-    sess = req.session;
-
-    if(!sess.logined) // 로그인 안 된 상태라면 접근안됨
-    {
-        res.send(`
-        <h1>Who are you?</h1>
-        <a href="/">Back </a>
-      `);
-    }
-    else{  // 로그인 한 상태만 접근가능 
-        var comp_name = req.body.comp_name;
-        var comp_org = req.body.comp_org;
-        var award_check = req.body.award_check;
-        var awards_name =  req.body.awards_name;
-        var proj_check = req.body.proj_check;
-        var proj_name = req.body/proj_name;
-        var user_id = req.body.user_id;
-        var sql = 'insert into topic '
-    }
-});
-
-*/
 
 // main
 app.post('/main', function(req, res){
