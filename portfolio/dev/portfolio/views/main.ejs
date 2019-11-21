@@ -1,37 +1,63 @@
 <!DOCTYPE html>
+<style>
+    table {
+      width: 100%;
+      border: 1px solid #444444;
+    }
+</style>
 <html>
     <head>
         <title>My Page</title>
     </head>
     <body>
         <div style="text-align:center;">
+                <div style = "text-align: left;">
+                    <form action="/main/<%= user_id %>/deleteAcount" method="GET">
+                        <button type="submit">DELETE ACCOUNT</button>        
+                    </form>
+                </div>
                 <h1><b>My Page</b></h1>
+                <div style = "text-align: left;">
+                    <form action="/logout" method="GET">
+                        <button type="submit">LOGOUT</button>        
+                    </form>
+                </div>
                 <hr>
-                <a href="/main/resume/resume_seq"> resume </a>
-                <br>
-                <a href="/competition"> competition </a>
-                <br>
-                <a href="/project"> project </a>
+                <a href="/main/resume" style="text-decoration: none"> resume &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/competition" style="text-decoration: none"> competition &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/project" style="text-decoration: none"> project &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/certification" style="text-decoration: none"> certification &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/test" style="text-decoration: none"> test &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/career" style="text-decoration: none"> career &nbsp; &nbsp; &nbsp; &nbsp; </a>
                 <hr>
         </div>
         <form action="/main/search" method="POST" style="text-align: center;">
-            <select name="serchBoard"> 
+            <select name="searchBoard"> 
                 <option value=""> 게시판 선택 </option>
-                <option value="test"> resume </option>
+                <option value="resume"> resume </option>
                 <option value="career"> career </option>
-                <option value="test"> test </option>
-                <option value="competition"> competition </option>
-                <option value="certification"> certification </option>
-                <option value="project"> project </option>
+                <option value="tests"> tests </option>
+                <option value="competitions"> competitions </option>
+                <option value="certifications"> certifications </option>
+                <option value="projects"> projects </option>
             </select>
             <input type="text" name="searchKey" placeholder="검색할 항목을 입력하세요">
             <button type="submit">search</button>
             <hr>
         </form>
-        <div style = "text-align: center;">
-            <form action="/logout" method="GET">
-                <button type="submit">LOGOUT</button>        
-            </form>
+        <br><br>
+        <div style="text-align: center;">
+                <div style="display:inline-block; font-size:20px; margin:0 auto;">
+                    <table>
+                        <tr><th><h3>Profile</h3></th></tr>
+                        <tr><td><%= post['birth'] %></td></tr> 
+                        <tr><td><%= post['email'] %></td></tr>
+                        <tr><td><%= post['phone'] %></td></tr>
+                        <tr><td><%= post['address'] %></td></tr>
+                    </table>
+                    <a href="/main/<%= user_id %>/edit"><input type="button" value="EDIT PROFILE"></a>
+                </div>
+            </div>
         </div>
     </body>
 </html>

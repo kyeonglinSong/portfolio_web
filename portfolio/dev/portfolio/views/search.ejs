@@ -11,15 +11,12 @@
         <div style="text-align: center;">
             <div style="display:inline-block; font-size:20px; margin:0 auto;">
                 <table border="1">
-                    <tr>
-                        <th>Company Name</th><th>Question</th><th>Answer</th>
-                    </tr>
-                    <% for(let i =0;i < results.length; i++){ %>
+                    <% for(var i =0;i < results.length; i++){ %>
                         <tr>
-                            <td><a href="/main/resume/<%= results[i]['seq'] %>"><%= results[i]['comp_org'] %></a></td>
-                            <td><%= results[i]['question'] %></td>
-                            <td><%= results[i]['answer'] %></td>
-                        </tr>  
+                        <% for(var key in results[i]){ %>
+                            <td><%= results[i][key] %></td>  
+                        <% } %>
+                        </tr>
                     <% } %>
                 </table>
             </div>

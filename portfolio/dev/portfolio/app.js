@@ -11,6 +11,7 @@ const main_router = require('./routes/main_router');  //router of board
 
 // get DB connection
 const conn = run_query.getconn();
+exportsList.conn = conn;
 
 //앱 세팅
 app = express();
@@ -43,30 +44,30 @@ get_userInfo = function(){
 //get resume info START----------------------------------------------------------------------------
 
 
-let resume = [];
-conn.query(str_query.getResume, function(err, res, fields)
-{
-    if (err)  return console.log(err);
-    if(res.length)
-    {
-        for(var i = 0; i<res.length; i++ )
-        {
-            //console.log(res[i]);
-            resume[resume.length] = {
-                'seq' : res[i]['seq'],
-                'comp_org' : res[i]['comp_org'],
-                'question': res[i]['question'],
-                'answer': res[i]['answer']
-            };
-            // resume.push('hi');
-            // resume[i]['comp_org'] = res[i]['comp_org'];
-            // resume[i]['question'] = res[i]['question'];
-            // resume[i]['answer'] = res[i]['answer'];
-        }
-    }
-    exportsList.resume_res = resume;
-    //console.log(resume);
-});
+// let resume = [];
+// conn.query(str_query.getResume, function(err, res, fields)
+// {
+//     if (err)  return console.log(err);
+//     if(res.length)
+//     {
+//         for(var i = 0; i<res.length; i++ )
+//         {
+//             //console.log(res[i]);
+//             resume[resume.length] = {
+//                 'seq' : res[i]['seq'],
+//                 'comp_org' : res[i]['comp_org'],
+//                 'question': res[i]['question'],
+//                 'answer': res[i]['answer']
+//             };
+//             // resume.push('hi');
+//             // resume[i]['comp_org'] = res[i]['comp_org'];
+//             // resume[i]['question'] = res[i]['question'];
+//             // resume[i]['answer'] = res[i]['answer'];
+//         }
+//     }
+//     exportsList.resume_res = resume;
+//     console.log(resume);
+// });
 //console.log(resume);
 
 //exportsList.resume_res = resume;
@@ -112,22 +113,23 @@ app.post('/login', (req, res) => {
     // !!!!!  user DB info////-------------------------------------------------------------------------
     if(req.body.id in userInfoDict){  
         if(req.body.pwd == userInfoDict[req.body.id]){ 
-        sess.logined = true;
-        sess.user_id = req.body.id;
-        res.redirect('/')
-        console.log(sess);
+            sess.logined = true;
+            sess.user_id = req.body.id;
+            sess.password = req.body.pwd;
+            res.redirect('/')
+            console.log(sess);
         } 
         else {
             res.send(`
             <h1>Who are you?</h1>
-            <a href="/login">Back </a>
+            <a href="/">Back </a>
             `);
         }
     }
     else {
     res.send(`
       <h1>Who are you?</h1>
-      <a href="/login">Back </a>
+      <a href="/">Back </a>
     `);}
 });
 
