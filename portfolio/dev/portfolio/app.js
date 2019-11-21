@@ -10,7 +10,7 @@ const bodyParser = require('body-parser')
 const main_router = require('./routes/main_router');  //router of board
 
 // get DB connection
-const conn = run_query.getconn()
+const conn = run_query.getconn();
 
 //앱 세팅
 app = express();
@@ -207,6 +207,7 @@ app.post('/signup', (req, res) => {
 
 //signup END----------------------------------------------------------------------------
 
+
 //----------------- 1/6. competition 게시판 ----------------------------------------------
 
 // 1-1. competiton 게시판 글 생성
@@ -355,11 +356,156 @@ app.post('/competition/:seq/delete', (req, res) => {
     });
 });
 
+//--------------- 1. comptition 끝 ----------------------------------------------
+
+
+//--------------- 2. project 시작 ------------------------
+
+// 2-1. project 게시판에 글 추가하기
+app.get('/project/add', (req, res) => {
+    var sql = 'select * from projects';
+    conn.query(sql, (err, posts, fields) => {
+        if(err){
+            console.log(err);
+        } 
+        res.render('proj/proj_add', {posts:posts});
+    });
+});
+
+app.post('/project/add', (req, res) => {
+    var proj_name = req.body.proj_name;
+    var proj_description = req.body.proj_description;
+    var url = req.body.url;
+    var user_id = req.body.user_id || req.query.user_id;
+    var sql = 'insert into projects(proj_name, proj_description, url, user_id) values(?, ?, ?, ?)';
+    conn.query(sql, [proj_name, proj_description, url, user_id], (err, result, fields)=> {
+        if(err){
+            console.log(err);
+            console.log("데이터 추가 에러");
+            res.status(500).send("internal server error");
+        } else {
+            res.redirect('/project');
+        }
+    });
+});
+
+// 2-2. project 게시판 글목록 보기, 글 상세보기
+app.get(['/project', '/project/:seq'],(req, res) => {
+    sess = req.session;
+
+    if(!sess.logined) // 로그인 안 된 상태라면 접근안됨
+    {
+        res.send(`
+        <h1>Who are you?</h1>
+        <a href="/">Back </a>
+      `);
+    
+    }
+else{  // 로그인 한 상태만 접근가능
+    var user_id = sess.user_id;  // 이걸로 내 아이디로 작성한 글만 판별해서 보여줄것임
+    var sql = 'SELECT * FROM projects where user_id=?';  
+        conn.query(sql, [user_id], (err, posts, fields) => {
+            var seq = req.params.seq || req.query.seq;
+            // 만약 project/:id 로 들어왔다면 (글 상세보기)
+            if(seq) {
+                var sql = 'SELECT * FROM projects WHERE seq=?'; 
+                conn.query(sql, [seq], (err, posts, fields) => {
+                    if(err){ // 에러가 있으면
+                        console.log(err);
+                    } else { // 에러가 없으면
+                        res.render('proj/proj_detail', {posts:posts, post:posts[0]})
+                    }
+
+                })
+            } else{
+                //res.send(posts);
+                res.render('proj/project', {posts:posts});
+            }
+        });
+    }
+
+});
+
+
+// 2-3. project 게시글 수정
+app.get(['/project/:seq/edit'], (req, res) => {
+    var sql = 'select * from projects';
+    conn.query(sql, (err, posts, fields) => {
+        var seq = req.params.seq;
+        if(seq) {
+            var sql = 'select * from projects where seq=?';
+            conn.query(sql, [seq], (err, posts, fileds) => {
+                if(err) {
+                    console.log(err);
+                    res.status(500).send('Internal Server Error');
+                } else {
+                    res.render('proj/proj_edit', {posts:posts, post:posts[0]});
+                }
+            });
+        } else {
+            console.log('there is no id');
+            res.status(500).send('Internal Server Error');
+        }
+    });
+});
+
+app.post(['/project/:seq/edit'], (req, res) => {
+    
+    var proj_name = req.body.proj_name;
+    var proj_description = req.body.proj_description;
+    var url = req.body.url;
+    var user_id = req.body.user_id || req.query.user_id;
+    var seq = req.params.seq;
+
+    var sql = 'update projects set proj_name=?, proj_description=?, url=?, user_id=? where seq=?';
+    conn.query(sql, [proj_name, proj_description, url, user_id, seq], (err, posts, fields) => {
+        if(err){
+            console.log(err);
+            res.status(500).send("internal server error");
+        } else {
+            res.redirect('/project/'+seq);
+        }
+    });
+});
+
+
+// 2-4. project 게시글 삭제
+app.get('/project/:seq/delete', (req, res) => {
+    var sql = 'select seq, comp_name from projects';
+    var seq = req.params.seq;
+
+    conn.query(sql, (err, posts, fields) => {
+        var sql = 'select * from projects where seq=?';
+        conn.query(sql, [seq], (err, posts) => {
+            if(err) {
+                console.log(err);
+                res.status(500).send('internal server error1');
+            } else {
+                if(posts.length === 0) {
+                    console.log('레코드가 없어용');
+                    res.status(500).send('internal server error2');
+                } else {
+                    res.render('proj/proj_delete', {posts:posts, post:posts[0]});
+                }
+            }
+        });
+    });
+});
+
+// 글 삭제 - yes 버튼을 눌렀을 때 정말 삭제
+app.post('/project/:seq/delete', (req, res) => {
+    var seq = req.params.seq;
+    var sql = 'delete from projects where seq=?';
+    conn.query(sql, [seq], (err, result) => {
+        res.redirect('/project');
+    });
+});
 
 
 
+//--------------- 2. project 끝 ------------------------------
 
-//-------------------------------------------------------------------------
+
 
 //서버 열기
 app.listen(3000, (req, res) => {

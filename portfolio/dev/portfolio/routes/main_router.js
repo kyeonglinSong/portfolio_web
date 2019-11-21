@@ -3,6 +3,7 @@ const path = require('path');
 const router = express.Router(); // 라우터 분리
 const search_results = require('../app');
 
+
 // main
 router.post('/', function(req, res){
     sess = req.session;
@@ -71,7 +72,7 @@ router.get('/resume/:resume_seq', (req, res) => {
 
 // search
 
+// 게시판 라우트정보
 
-// 다른 6가지 게시판 라우터 여기다가 하기
 
 module.exports = router; // 모듈로 만드는 부분
