@@ -9,9 +9,21 @@ router.post('/', function(req, res){
 });
 
 router.get('/', (req, res) => {
+
     sess = req.session;
+
+    if(!sess.logined) // 로그인 안 된 상태라면 접근안됨
+    {
+        res.send(`
+        <h1>Who are you?</h1>
+        <a href="/">Back </a>
+      `);
+    
+    } else {  // 로그인 한 상태만 접근가능
     console.log(sess);
-    res.render('main'); //세션에 
+    res.render('main');
+
+    }
 });
 
 router.post('/search', function(req, res){

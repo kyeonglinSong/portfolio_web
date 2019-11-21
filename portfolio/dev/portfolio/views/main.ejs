@@ -7,18 +7,27 @@
         <div style="text-align:center;">
                 <h1><b>My Page</b></h1>
                 <hr>
-                <a href="/competition"> competition </a>
-                <br>
                 <a href="/main/resume/resume_seq"> resume </a>
+                <br>
+                <a href="/competition"> competition </a>
                 <hr>
         </div>
         <form action="/main/search" method="POST" style="text-align: center;">
+            <select name="serchBoard"> 
+                <option value=""> 게시판 선택 </option>
+                <option value="test"> resume </option>
+                <option value="career"> career </option>
+                <option value="test"> test </option>
+                <option value="competition"> competition </option>
+                <option value="certification"> certification </option>
+                <option value="project"> project </option>
+            </select>
             <input type="text" name="searchKey" placeholder="검색할 항목을 입력하세요">
             <button type="submit">search</button>
             <hr>
         </form>
         <div style = "text-align: center;">
-            <form action="/logout" method="POST">
+            <form action="/logout" method="GET">
                 <button type="submit">LOGOUT</button>        
             </form>
         </div>

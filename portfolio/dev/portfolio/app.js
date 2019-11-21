@@ -34,7 +34,7 @@ get_userInfo = function(){
                 userInfoDict[res[i]['user_id']] = res[i]['password'];
             }
         }
-    });
+    }); 
 
 }
 //get user info END----------------------------------------------------------------------------
@@ -139,10 +139,12 @@ app.get('/logout', function(req, res){
             if(err){
                 console.log(err);
             }else{
+                console.log("여기 뜸");
                 res.redirect('/');
             }
         });
     }else{
+        console.log("아냐 여기뜸");
         res.redirect('/');
     }
 });
@@ -205,8 +207,9 @@ app.post('/signup', (req, res) => {
 
 //signup END----------------------------------------------------------------------------
 
+//----------------- 1/6. competition 게시판 ----------------------------------------------
 
-// add 실행이 먼저 여기에 걸려야해서 여기랑 이 밑에 get함수 순서 바꿨엉! 
+// 1-1. competiton 게시판 글 생성
 app.get('/competition/add', (req, res) => {
     var sql = 'select * from competitions';
     conn.query(sql, (err, posts, fields) => {
@@ -217,9 +220,27 @@ app.get('/competition/add', (req, res) => {
     });
 });
 
-// competition 게시판
-// 1. GET competition
-// 2. GET competiton/:seq
+app.post('/competition/add', (req, res) => {
+    var comp_name = req.body.comp_name || req.query.comp_name;
+    var comp_org = req.body.comp_org || req.query.comp_org;
+    var awards_check = req.body.awards_check;
+    var awards_name =  req.body.awards_name;
+    var proj_check = req.body.proj_check || req.query.proj_check;
+    var proj_name = req.body.proj_name || req.query.proj_name;
+    var user_id = req.body.user_id || req.query.user_id;
+    var sql = 'insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values(?, ?, ?, ?, ?, ?, ?)';
+    conn.query(sql, [comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id], (err, result, fields)=> {
+        if(err){
+            console.log(err);
+            console.log("데이터 추가 에러");
+            res.status(500).send("internal server error");
+        } else {
+            res.redirect('/competition');
+        }
+    });
+});
+
+// 1-2. competition 게시판 글목록 보기, 글 상세보기
 app.get(['/competition', '/competition/:seq'],(req, res) => {
     sess = req.session;
 
@@ -232,11 +253,10 @@ app.get(['/competition', '/competition/:seq'],(req, res) => {
     
     }
 else{  // 로그인 한 상태만 접근가능
-
-    var sql = 'SELECT * FROM competitions';  // 수상목록들 가져옴. 근데 db에서 아이디인증 가능하면 바꿀거임
-        conn.query(sql, (err, posts, fields) => {
+    var user_id = sess.user_id;  // 이걸로 내 아이디로 작성한 글만 판별해서 보여줄것임
+    var sql = 'SELECT * FROM competitions where user_id=?';  
+        conn.query(sql, [user_id], (err, posts, fields) => {
             var seq = req.params.seq || req.query.seq;
-            console.log(seq);
             // 만약 competition/:id 로 들어왔다면 (글 상세보기)
             if(seq) {
                 var sql = 'SELECT * FROM competitions WHERE seq=?'; 
@@ -258,9 +278,52 @@ else{  // 로그인 한 상태만 접근가능
 });
 
 
+// 1-3. competition 게시글 수정
+app.get(['/competition/:seq/edit'], (req, res) => {
+    var sql = 'select * from competitions';
+    conn.query(sql, (err, posts, fields) => {
+        var seq = req.params.seq;
+        if(seq) {
+            var sql = 'select * from competitions where seq=?';
+            conn.query(sql, [seq], (err, posts, fileds) => {
+                if(err) {
+                    console.log(err);
+                    res.status(500).send('Internal Server Error');
+                } else {
+                    res.render('comp/comp_edit', {posts:posts, post:posts[0]});
+                }
+            });
+        } else {
+            console.log('there is no id');
+            res.status(500).send('Internal Server Error');
+        }
+    });
+});
+
+app.post(['/competition/:seq/edit'], (req, res) => {
+    
+    var comp_name = req.body.comp_name;
+    var comp_org = req.body.comp_org;
+    var awards_check = req.body.awards_check;
+    var awards_name =  req.body.awards_name;
+    var proj_check = req.body.proj_check;
+    var proj_name = req.body.proj_name;
+    var user_id = req.body.user_id; 
+    var seq = req.params.seq;
+
+    var sql = 'update competitions set comp_name=?, comp_org=?, awards_check=?, awards_name=?, proj_check=?, proj_name=?, user_id=? where seq=?';
+    conn.query(sql, [comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id, seq], (err, posts, fields) => {
+        if(err){
+            console.log(err);
+            res.status(500).send("internal server error");
+        } else {
+            res.redirect('/competition/'+seq);
+        }
+    });
+});
 
 
-// 3. GET competition/:seq/delete
+// 1-4. competition 게시글 삭제
 app.get('/competition/:seq/delete', (req, res) => {
     var sql = 'select seq, comp_name from competitions';
     var seq = req.params.seq;
@@ -283,7 +346,7 @@ app.get('/competition/:seq/delete', (req, res) => {
     });
 });
 
-// 4. POST competition/:seq/delete - yes 버튼을 눌렀을 때 정말 삭제
+// 글 삭제 - yes 버튼을 눌렀을 때 정말 삭제
 app.post('/competition/:seq/delete', (req, res) => {
     var seq = req.params.seq;
     var sql = 'delete from competitions where seq=?';
@@ -292,32 +355,11 @@ app.post('/competition/:seq/delete', (req, res) => {
     });
 });
 
-/*
-app.post('/topic/add', (req, res) => {
-    
-    sess = req.session;
 
-    if(!sess.logined) // 로그인 안 된 상태라면 접근안됨
-    {
-        res.send(`
-        <h1>Who are you?</h1>
-        <a href="/">Back </a>
-      `);
-    }
-    else{  // 로그인 한 상태만 접근가능 
-        var comp_name = req.body.comp_name;
-        var comp_org = req.body.comp_org;
-        var award_check = req.body.award_check;
-        var awards_name =  req.body.awards_name;
-        var proj_check = req.body.proj_check;
-        var proj_name = req.body/proj_name;
-        var user_id = req.body.user_id;
-        var sql = 'insert into topic '
-    }
-});
 
-*/
 
+
+//-------------------------------------------------------------------------
 
 //서버 열기
 app.listen(3000, (req, res) => {
