@@ -503,9 +503,592 @@ app.post('/project/:seq/delete', (req, res) => {
 
 
 
-//--------------- 2. project 끝 ------------------------------
+//--------------- 2. project 끝 -----------------------------------------
+
+//--------------- 3. resume 시작 ------------------------------------------
+
+// 3-1. resume 게시판에 글 추가하기
+app.get('/resume/add', (req, res) => {
+    var sql = 'select * from resume';
+    conn.query(sql, (err, posts, fields) => {
+        if(err){
+            console.log(err);
+        } 
+        res.render('resu/res_add', {posts:posts});
+    });
+});
+
+app.post('/resume/add', (req, res) => {
+    var company = req.body.company;
+    var text = req.body.text;
+    var user_id = req.body.user_id || req.query.user_id;
+    var sql = 'insert into resume(company, text, user_id) values(?, ?, ?)';
+    conn.query(sql, [company, text, user_id], (err, result, fields)=> {
+        if(err){
+            console.log(err);
+            console.log("데이터 추가 에러");
+            res.status(500).send("internal server error");
+        } else {
+            res.redirect('/resume');
+        }
+    });
+});
+
+// 3-2. resume 게시판 글목록 보기, 글 상세보기
+app.get(['/resume', '/resume/:seq'],(req, res) => {
+    sess = req.session;
+
+    if(!sess.logined) // 로그인 안 된 상태라면 접근안됨
+    {
+        res.send(`
+        <h1>Who are you?</h1>
+        <a href="/">Back </a>
+      `);
+    
+    }
+else{  // 로그인 한 상태만 접근가능
+    var user_id = sess.user_id;  // 이걸로 내 아이디로 작성한 글만 판별해서 보여줄것임
+    var sql = 'SELECT * FROM resume where user_id=?';  
+        conn.query(sql, [user_id], (err, posts, fields) => {
+            var seq = req.params.seq || req.query.seq;
+            // 만약 project/:id 로 들어왔다면 (글 상세보기)
+            if(seq) {
+                var sql = 'SELECT * FROM resume WHERE seq=?'; 
+                conn.query(sql, [seq], (err, posts, fields) => {
+                    if(err){ // 에러가 있으면
+                        console.log(err);
+                    } else { // 에러가 없으면
+                        res.render('resu/res_detail', {posts:posts, post:posts[0]})
+                    }
+
+                })
+            } else{
+                //res.send(posts);
+                res.render('resu/resume', {posts:posts});
+            }
+        });
+    }
+
+});
 
 
+// 3-3. resume 게시글 수정
+app.get(['/resume/:seq/edit'], (req, res) => {
+    var sql = 'select * from resume';
+    conn.query(sql, (err, posts, fields) => {
+        var seq = req.params.seq;
+        if(seq) {
+            var sql = 'select * from resume where seq=?';
+            conn.query(sql, [seq], (err, posts, fileds) => {
+                if(err) {
+                    console.log(err);
+                    res.status(500).send('Internal Server Error');
+                } else {
+                    res.render('resu/res_edit', {posts:posts, post:posts[0]});
+                }
+            });
+        } else {
+            console.log('there is no id');
+            res.status(500).send('Internal Server Error');
+        }
+    });
+});
+
+app.post(['/resume/:seq/edit'], (req, res) => {
+    
+    var company = req.body.company;
+    var text = req.body.text;
+    var user_id = req.body.user_id || req.query.user_id;
+    var seq = req.params.seq;
+
+    var sql = 'update resume set company=?, text=?, user_id=? where seq=?';
+    conn.query(sql, [company, text, user_id, seq], (err, posts, fields) => {
+        if(err){
+            console.log(err);
+            res.status(500).send("internal server error");
+        } else {
+            res.redirect('/resume/'+seq);
+        }
+    });
+});
+
+
+// 3-4. resume 게시글 삭제
+app.get('/resume/:seq/delete', (req, res) => {
+    var sql = 'select seq, comp_name from resume';
+    var seq = req.params.seq;
+
+    conn.query(sql, (err, posts, fields) => {
+        var sql = 'select * from resume where seq=?';
+        conn.query(sql, [seq], (err, posts) => {
+            if(err) {
+                console.log(err);
+                res.status(500).send('internal server error1');
+            } else {
+                if(posts.length === 0) {
+                    console.log('레코드가 없어용');
+                    res.status(500).send('internal server error2');
+                } else {
+                    res.render('resu/res_delete', {posts:posts, post:posts[0]});
+                }
+            }
+        });
+    });
+});
+
+// 글 삭제 - yes 버튼을 눌렀을 때 정말 삭제
+app.post('/resume/:seq/delete', (req, res) => {
+    var seq = req.params.seq;
+    var sql = 'delete from resume where seq=?';
+    conn.query(sql, [seq], (err, result) => {
+        res.redirect('/resume');
+    });
+});
+
+//-----------------3. resume 끝 ----------------------------
+
+
+//----------------- 4. certification 게시판 ----------------------------------------------
+
+// 4-1. certification 게시판 글 생성
+app.get('/certification/add', (req, res) => {
+    var sql = 'select * from certifications';
+    conn.query(sql, (err, posts, fields) => {
+        if(err){
+            console.log(err);
+        } 
+        res.render('cert/cert_add', {posts:posts});
+    });
+});
+
+app.post('/certification/add', (req, res) => {
+    var cert_name = req.body.cert_name;
+    var cert_num = req.body.cert_num;
+    var issuing_org = req.body.issuing_org;
+    var issuing_date =  req.body.issuing_date;
+    var expiration_date = req.body.expiration_date;
+    var user_id = req.body.user_id || req.query.user_id;
+    var sql = 'insert into certifications(cert_name, cert_num, issuing_org, issuing_date, expiration_date, user_id) values(?, ?, ?, ?, ?, ?)';
+    conn.query(sql, [cert_name, cert_num, issuing_org, issuing_date, expiration_date, user_id], (err, result, fields)=> {
+        if(err){
+            console.log(err);
+            console.log("데이터 추가 에러");
+            res.status(500).send("internal server error");
+        } else {
+            res.redirect('/certification');
+        }
+    });
+});
+
+// 4-2. certification 게시판 글목록 보기, 글 상세보기
+app.get(['/certification', '/certification/:seq'],(req, res) => {
+    sess = req.session;
+
+    if(!sess.logined) // 로그인 안 된 상태라면 접근안됨
+    {
+        res.send(`
+        <h1>Who are you?</h1>
+        <a href="/">Back </a>
+      `);
+    
+    }
+else{  // 로그인 한 상태만 접근가능
+    var user_id = sess.user_id;  // 이걸로 내 아이디로 작성한 글만 판별해서 보여줄것임
+    var sql = 'SELECT * FROM certifications where user_id=?';  
+        conn.query(sql, [user_id], (err, posts, fields) => {
+            var seq = req.params.seq || req.query.seq;
+            // 만약 certification/:id 로 들어왔다면 (글 상세보기)
+            if(seq) {
+                var sql = 'SELECT * FROM certifications WHERE seq=?'; 
+                conn.query(sql, [seq], (err, posts, fields) => {
+                    if(err){ // 에러가 있으면
+                        console.log(err);
+                    } else { // 에러가 없으면
+                        res.render('cert/cert_detail', {posts:posts, post:posts[0]})
+                    }
+
+                })
+            } else{
+                //res.send(posts);
+                res.render('cert/certification', {posts:posts});
+            }
+        });
+    }
+
+});
+
+
+// 4-3. certification 게시글 수정
+app.get(['/certification/:seq/edit'], (req, res) => {
+    var sql = 'select * from certifications';
+    conn.query(sql, (err, posts, fields) => {
+        var seq = req.params.seq;
+        if(seq) {
+            var sql = 'select * from certifications where seq=?';
+            conn.query(sql, [seq], (err, posts, fileds) => {
+                if(err) {
+                    console.log(err);
+                    res.status(500).send('Internal Server Error');
+                } else {
+                    res.render('cert/cert_edit', {posts:posts, post:posts[0]});
+                }
+            });
+        } else {
+            console.log('there is no id');
+            res.status(500).send('Internal Server Error');
+        }
+    });
+});
+
+app.post(['/certification/:seq/edit'], (req, res) => {
+    
+    var cert_name = req.body.cert_name; 
+    var cert_num = req.body.cert_num;
+    var issuing_org = req.body.issuing_org;
+    var issuing_date =  req.body.issuing_date;
+    var expiration_date = req.body.expiration_date;
+    var user_id = req.body.user_id || req.query.user_id;
+    var seq = req.params.seq;
+
+    var sql = 'update certifications set cert_name=?, cert_num=?, issuing_org=?, issuing_date=?, expiration_date=?, user_id=? where seq=?';
+    conn.query(sql, [cert_name, cert_num, issuing_org, issuing_date, expiration_date, user_id, seq], (err, posts, fields) => {
+        if(err){
+            console.log(err);
+            res.status(500).send("internal server error");
+        } else {
+            res.redirect('/certification/' + seq);
+        }
+    });
+});
+
+
+// 4-4. certification 게시글 삭제
+app.get('/certification/:seq/delete', (req, res) => {
+    var sql = 'select seq, cert_name from certifications';
+    var seq = req.params.seq;
+
+    conn.query(sql, (err, posts, fields) => {
+        var sql = 'select * from certifications where seq=?';
+        conn.query(sql, [seq], (err, posts) => {
+            if(err) {
+                console.log(err);
+                res.status(500).send('internal server error1');
+            } else {
+                if(posts.length === 0) {
+                    console.log('레코드가 없어용');
+                    res.status(500).send('internal server error2');
+                } else {
+                    res.render('cert/cert_delete', {posts:posts, post:posts[0]});
+                }
+            }
+        });
+    });
+});
+
+// 글 삭제 - yes 버튼을 눌렀을 때 정말 삭제
+app.post('/certification/:seq/delete', (req, res) => {
+    var seq = req.params.seq;
+    var sql = 'delete from certifications where seq=?';
+    conn.query(sql, [seq], (err, result) => {
+        res.redirect('/certification');
+    });
+});
+
+//--------------- 4. certification 끝 ----------------------------------------------
+
+//----------------- 5. test게시판 ----------------------------------------------
+
+// 5-1. test 게시판 글 생성
+app.get('/test/add', (req, res) => {
+    var sql = 'select * from tests';
+    conn.query(sql, (err, posts, fields) => {
+        if(err){
+            console.log(err);
+        } 
+        res.render('test/test_add', {posts:posts});
+    });
+});
+
+app.post('/test/add', (req, res) => {
+    var test_name = req.body.test_name;
+    var score = req.body.score; 
+    var issuing_org = req.body.issuing_org;
+    var issuing_date =  req.body.issuing_date;
+    var expiration_date = req.body.expiration_date;
+    var user_id = req.body.user_id || req.query.user_id;
+    var sql = 'insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values(?, ?, ?, ?, ?, ?)';
+    conn.query(sql, [test_name, score, issuing_org, issuing_date, expiration_date, user_id], (err, result, fields)=> {
+        if(err){
+            console.log(err);
+            console.log("데이터 추가 에러");
+            res.status(500).send("internal server error");
+        } else {
+            res.redirect('/test');
+        }
+    });
+});
+
+// 5-2. test 게시판 글목록 보기, 글 상세보기
+app.get(['/test', '/test/:seq'],(req, res) => {
+    sess = req.session;
+
+    if(!sess.logined) // 로그인 안 된 상태라면 접근안됨
+    {
+        res.send(`
+        <h1>Who are you?</h1>
+        <a href="/">Back </a>
+      `);
+    
+    }
+else{  // 로그인 한 상태만 접근가능
+    var user_id = sess.user_id;  // 이걸로 내 아이디로 작성한 글만 판별해서 보여줄것임
+    var sql = 'SELECT * FROM tests where user_id=?';  
+        conn.query(sql, [user_id], (err, posts, fields) => {
+            var seq = req.params.seq || req.query.seq;
+            // 만약 test/:id 로 들어왔다면 (글 상세보기)
+            if(seq) {
+                var sql = 'SELECT * FROM tests WHERE seq=?'; 
+                conn.query(sql, [seq], (err, posts, fields) => {
+                    if(err){ // 에러가 있으면
+                        console.log(err);
+                    } else { // 에러가 없으면
+                        res.render('test/test_detail', {posts:posts, post:posts[0]})
+                    }
+
+                })
+            } else{
+                //res.send(posts);
+                res.render('test/test_main', {posts:posts});
+            }
+        });
+    }
+
+});
+
+
+// 5-3. test 게시글 수정
+app.get(['/test/:seq/edit'], (req, res) => {
+    var sql = 'select * from tests';
+    conn.query(sql, (err, posts, fields) => {
+        var seq = req.params.seq;
+        if(seq) {
+            var sql = 'select * from tests where seq=?';
+            conn.query(sql, [seq], (err, posts, fileds) => {
+                if(err) {
+                    console.log(err);
+                    res.status(500).send('Internal Server Error');
+                } else {
+                    res.render('test/test_edit', {posts:posts, post:posts[0]});
+                }
+            });
+        } else {
+            console.log('there is no id');
+            res.status(500).send('Internal Server Error');
+        }
+    });
+});
+
+app.post(['/test/:seq/edit'], (req, res) => {
+    
+    var test_name = req.body.test_name; 
+    var score = req.body.score;
+    var issuing_org = req.body.issuing_org;
+    var issuing_date =  req.body.issuing_date;
+    var expiration_date = req.body.expiration_date;
+    var user_id = req.body.user_id || req.query.user_id;
+    var seq = req.params.seq;
+
+    var sql = 'update tests set test_name=?, score=?, issuing_org=?, issuing_date=?, expiration_date=?, user_id=? where seq=?';
+    conn.query(sql, [test_name, score, issuing_org, issuing_date, expiration_date, user_id, seq], (err, posts, fields) => {
+        if(err){
+            console.log(err);
+            res.status(500).send("internal server error");
+        } else {
+            res.redirect('/test/' + seq);
+        }
+    });
+});
+
+
+// 5-4. test 게시글 삭제
+app.get('/test/:seq/delete', (req, res) => {
+    var sql = 'select seq, test_name from tests';
+    var seq = req.params.seq;
+
+    conn.query(sql, (err, posts, fields) => {
+        var sql = 'select * from tests where seq=?';
+        conn.query(sql, [seq], (err, posts) => {
+            if(err) {
+                console.log(err);
+                res.status(500).send('internal server error1');
+            } else {
+                if(posts.length === 0) {
+                    console.log('레코드가 없어용');
+                    res.status(500).send('internal server error2');
+                } else {
+                    res.render('test/test_delete', {posts:posts, post:posts[0]});
+                }
+            }
+        });
+    });
+});
+
+// 글 삭제 - yes 버튼을 눌렀을 때 정말 삭제
+app.post('/test/:seq/delete', (req, res) => {
+    var seq = req.params.seq;
+    var sql = 'delete from tests where seq=?';
+    conn.query(sql, [seq], (err, result) => {
+        res.redirect('/test');
+    });
+});
+
+//--------------- 5. test 끝 ----------------------------------------------
+
+//----------------- 6. career 게시판 ----------------------------------------------
+
+// 6-1. career 게시판 글 생성
+app.get('/career/add', (req, res) => {
+    var sql = 'select * from career';
+    conn.query(sql, (err, posts, fields) => {
+        if(err){
+            console.log(err);
+        } 
+        res.render('car/car_add', {posts:posts});
+    });
+});
+
+app.post('/career/add', (req, res) => {
+    var org_name = req.body.org_name;
+    var start_date = req.body.start_date;
+    var end_date = req.body.end_date;
+    var career_description = req.body.career_description;
+    var user_id = req.body.user_id || req.query.user_id;
+    var sql = 'insert into career(org_name, start_date, end_date, career_description, user_id) values(?, ?, ?, ?, ?)';
+    conn.query(sql, [org_name, start_date, end_date, career_description, user_id], (err, result, fields)=> {
+        if(err){
+            console.log(err);
+            console.log("데이터 추가 에러");
+            res.status(500).send("internal server error");
+        } else {
+            res.redirect('/career');
+        }
+    });
+});
+
+// 6-2. career 게시판 글목록 보기, 글 상세보기
+app.get(['/career', '/career/:seq'],(req, res) => {
+    sess = req.session;
+
+    if(!sess.logined) // 로그인 안 된 상태라면 접근안됨
+    {
+        res.send(`
+        <h1>Who are you?</h1>
+        <a href="/">Back </a>
+      `);
+    
+    }
+else{  // 로그인 한 상태만 접근가능
+    var user_id = sess.user_id;  // 이걸로 내 아이디로 작성한 글만 판별해서 보여줄것임
+    var sql = 'SELECT * FROM career where user_id=?';  
+        conn.query(sql, [user_id], (err, posts, fields) => {
+            var seq = req.params.seq || req.query.seq;
+            // 만약 career/:id 로 들어왔다면 (글 상세보기)
+            if(seq) {
+                var sql = 'SELECT * FROM career WHERE seq=?'; 
+                conn.query(sql, [seq], (err, posts, fields) => {
+                    if(err){ // 에러가 있으면
+                        console.log(err);
+                    } else { // 에러가 없으면
+                        res.render('car/car_detail', {posts:posts, post:posts[0]})
+                    }
+
+                })
+            } else{
+                //res.send(posts);
+                res.render('car/career', {posts:posts});
+            }
+        });
+    }
+
+});
+
+
+// 6-3. career 게시글 수정
+app.get(['/career/:seq/edit'], (req, res) => {
+    var sql = 'select * from career';
+    conn.query(sql, (err, posts, fields) => {
+        var seq = req.params.seq;
+        if(seq) {
+            var sql = 'select * from career where seq=?';
+            conn.query(sql, [seq], (err, posts, fileds) => {
+                if(err) {
+                    console.log(err);
+                    res.status(500).send('Internal Server Error');
+                } else {
+                    res.render('car/car_edit', {posts:posts, post:posts[0]});
+                }
+            });
+        } else {
+            console.log('there is no id');
+            res.status(500).send('Internal Server Error');
+        }
+    });
+});
+
+app.post(['/career/:seq/edit'], (req, res) => {
+    
+    var org_name = req.body.org_name;
+    var start_date = req.body.start_date;
+    var end_date = req.body.end_date;
+    var career_description = req.body.career_description;
+    var user_id = req.body.user_id || req.query.user_id;
+    var seq = req.params.seq;
+
+    var sql = 'update career set org_name=?, start_date=?, end_date=?, career_description=?, user_id=? where seq=?';
+    conn.query(sql, [org_name, start_date, end_date, career_description, user_id, seq], (err, posts, fields) => {
+        if(err){
+            console.log(err);
+            res.status(500).send("internal server error");
+        } else {
+            res.redirect('/career/' + seq);
+        }
+    });
+});
+
+
+// 6-4. career 게시글 삭제
+app.get('/career/:seq/delete', (req, res) => {
+    var sql = 'select seq, org_name from career';
+    var seq = req.params.seq;
+
+    conn.query(sql, (err, posts, fields) => {
+        var sql = 'select * from career where seq=?';
+        conn.query(sql, [seq], (err, posts) => {
+            if(err) {
+                console.log(err);
+                res.status(500).send('internal server error1');
+            } else {
+                if(posts.length === 0) {
+                    console.log('레코드가 없어용');
+                    res.status(500).send('internal server error2');
+                } else {
+                    res.render('car/car_delete', {posts:posts, post:posts[0]});
+                }
+            }
+        });
+    });
+});
+
+// 글 삭제 - yes 버튼을 눌렀을 때 정말 삭제
+app.post('/career/:seq/delete', (req, res) => {
+    var seq = req.params.seq;
+    var sql = 'delete from career where seq=?';
+    conn.query(sql, [seq], (err, result) => {
+        res.redirect('/career');
+    });
+});
+
+//--------------- 6. career 끝 ----------------------------------------------
 
 //서버 열기
 app.listen(3000, (req, res) => {

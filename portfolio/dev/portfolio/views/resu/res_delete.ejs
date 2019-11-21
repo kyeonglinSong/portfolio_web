@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>delete</title>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <h2>삭제하기</h2>
+            <hr>
+        </div>
+        <div style="text-align: center;">
+            <br>
+            <%= post.company %> 기록을 정말 삭제하실건가요?
+            <br>
+            <br>
+            <form action="/resume/<%= post.seq %>/delete" method="post">
+                <input type="submit" value="YSE">
+                <a href="/resume/<%= post.seq %>"><input type="button" value="NO"> </a>
+            </form>
+        </div>
+    </body>
+</html>

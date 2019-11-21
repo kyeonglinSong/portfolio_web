@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>test detail</title> 
+        <script type="text/javascript" src="app.js"></script>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <h1>test</h1>
+            <hr>
+        </div>
+        <div>
+            <h2>공인시험 상세</h2>
+            <p> 
+                <h4>시험 이름</h4>
+                <%= JSON.stringify(post.test_name) %>
+                <h4>점수 or 등급</h4>
+                <%= JSON.stringify(post.score) %>
+                <h4>발급기관</h4>
+                <%= JSON.stringify(post.issuing_org) %>
+                <h4>발급일자</h4>
+                <%= JSON.stringify(post.issuing_date) %>
+                <% if(post.expiration_date) { %>
+                <h4>만료일자</h4>
+                <%= JSON.stringify(post.expiration_date) %>
+               <% } %>
+            </p>
+        </div>
+        <div style="text-align: center;">
+            <a href='/test/ <%= post.seq %>/delete'> <input type="button" value="글 삭제"> </a>
+            <a href='/test/<%= post.seq %>/edit'> <input type="button" value="글 수정"> </a>
+            <a href='../main'> <input type="button" value="main"> </a>
+        </div>
+    </body>
+</html>

@@ -8,7 +8,8 @@ exportsList.getconn = function(){
       host     : 'localhost',
       user     : 'root',
       password : 'rootroot',
-      database : 'portfolio'
+      database : 'portfolio',
+      dateStrings: 'date'
     });
 
     conn.connect();

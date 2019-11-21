@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>add career</title>
+    </head>
+    <body>
+        <div>
+                <h2>경력 추가</h2>
+        </div>
+        <div>
+            <form action="/career/add" method="post">
+                <h4> 회사/기관 </h4>
+                <input type="text" name="org_name">
+                <br>
+                <h4> 시작 일자 </h4>
+                <input type="text" name="start_date" value="(ex. 970322)">
+                <br>
+                <h4> 종료 일자 </h4>
+                <input type="text" name="end_date" value="(ex. 970322)">
+                <br>
+                <h4> 상세 설명 </h4>
+                <input type="text" name="career_description">
+                <br>
+                <h4> 작성자 id </h4>
+                - 확인을 위하여 본인의 아이디를 한번 더 입력해주세요 <br>
+                <input type="text" name="user_id">
+                <br><br>
+                <input type="submit" value="글 추가">
+            </form>
+        </div>
+        <div style="text-align: center;">
+
+                <a href='/career'> <input type="button" value="목록으로 돌아가기"> </a>
+        </div>
+    </body>
+</html>

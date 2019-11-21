@@ -55,11 +55,13 @@ router.post('/search', function(req, res){
 
 });
 
+/*
 router.get('/resume/:resume_seq', (req, res) => {
     //sess = req.session;
     //console.log(sess);
     res.render('resume/resume'); //세션에 
 });
+*/
 
 // router.get('/search', function(req, res){
 //     sess = req.session;
