@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>자소서 상세</title> 
+        <script type="text/javascript" src="app.js"></script>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <h1>resume</h1>
+            <hr>
+        </div>
+        <div>
+            <h2>자소서 상세보기</h2>
+            <p> 
+                <h4>회사 이름</h4>
+                <%= JSON.stringify(post.company) %>
+                <h4>내용</h4>
+                <%= JSON.stringify(post.text) %>
+            </p>
+        </div>
+        <div style="text-align: center;">
+            <a href='/resume/ <%= post.seq %>/delete'> <input type="button" value="글 삭제"> </a>
+            <a href='/resume/<%= post.seq %>/edit'> <input type="button" value="글 수정"> </a>
+            <a href='../main'> <input type="button" value="main"> </a>
+        </div>
+    </body>
+</html>

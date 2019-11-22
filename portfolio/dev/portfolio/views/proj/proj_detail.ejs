@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>project detail</title> 
+        <script type="text/javascript" src="app.js"></script>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <h1>project</h1>
+            <hr>
+        </div>
+        <div>
+            <h2>프로젝트 상세</h2>
+            <p> 
+                <h4>프로젝트명</h4>
+                <%= JSON.stringify(post.proj_name) %>
+                <h4>프로젝트 설명</h4>
+                <%= JSON.stringify(post.proj_description) %>
+                <h4>관련 URL</h4>
+                <%= JSON.stringify(post.url) %>
+            </p>
+        </div>
+        <div style="text-align: center;">
+            <a href='/project/ <%= post.seq %>/delete'> <input type="button" value="프로젝트 삭제"> </a>
+            <a href='/project/<%= post.seq %>/edit'> <input type="button" value="내용 수정"> </a>
+            <a href='../main'> <input type="button" value="main"> </a>
+        </div>
+    </body>
+</html>

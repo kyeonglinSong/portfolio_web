@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Search Results</title>
+    </head>
+    <body>
+        <div style="text-align: center;">
+                <h1><b>Search Results</b></h1>
+                <hr>
+        </div>
+        <div style="text-align: center;">
+            <div style="display:inline-block; font-size:20px; margin:0 auto;">
+                <table border="1">
+                    <% for(var i =0;i < results.length; i++){ %>
+                        <tr>
+                        <% for(var key in results[i]){ %>
+                            <td><%= results[i][key] %></td>  
+                        <% } %>
+                        </tr>
+                    <% } %>
+                </table>
+            </div>
+        </div>
+        <div style = "text-align: center;">
+            <a href='/main'><button type="submit">Main</button></a>
+        </div>
+    </body>
+</html>

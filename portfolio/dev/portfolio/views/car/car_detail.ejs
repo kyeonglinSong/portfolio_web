@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>career detail</title> 
+        <script type="text/javascript" src="app.js"></script>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <h1>career</h1>
+            <hr>
+        </div>
+        <div>
+            <h2>경력 상세</h2>
+            <p> 
+                <h4>기관/회사</h4>
+                <%= JSON.stringify(post.org_name) %>
+                <h4>시작 일자</h4>
+                <%= JSON.stringify(post.start_date) %>
+                <h4>종료 일자</h4>
+                <%= JSON.stringify(post.end_date) %>
+                <h4>상세 설명</h4>
+                <%= JSON.stringify(post.career_description) %>
+            </p>
+        </div>
+        <div style="text-align: center;">
+            <a href='/career/ <%= post.seq %>/delete'> <input type="button" value="경력 삭제"> </a>
+            <a href='/career/<%= post.seq %>/edit'> <input type="button" value="경력 수정"> </a>
+            <a href='../main'> <input type="button" value="main"> </a>
+        </div>
+    </body>
+</html>

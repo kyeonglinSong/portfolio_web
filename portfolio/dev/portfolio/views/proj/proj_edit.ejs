@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>프로젝트 수정</title>
+    </head>
+    <body>
+        <div>
+            <h2>프로젝트 내용 수정</h2>
+        </div>
+        <div>
+            <form action="/project/<%=post.seq%>/edit" method="POST">
+                <h4> 프로젝트 이름 </h4>
+                <input type="text" name="proj_name" value="<%= post.proj_name %>">
+                <br>
+                <h4> 프로젝트 설명 </h4>
+                <input type="text" name="proj_description" value="<%= post.proj_description %>" style="width:100px;">
+                <br>
+                <h4> 프로젝트 관련 URL (없으면 비워주세요) </h4>
+                <input type="text" name="url" value="<%= post.url %>">
+                <br>
+                <h4> 작성자 id </h4>
+                - 확인을 위하여 본인 아이디를 한번 더 입력해주세요 <br>
+                <input type="text" name="user_id">
+                <br><br>
+                <a href=> <input type="submit" value="변경 저장"> </a>
+            </form>
+        </div>
+        <div style="text-align: center;">
+                <a href='/project'> <input type="button" value="목록으로 돌아가기"> </a>
+        </div>
+    </body>
+</html>

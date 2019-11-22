@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<style>
+    table {
+      width: 100%;
+      border: 1px solid #444444;
+    }
+</style>
+<html>
+    <head>
+        <title>My Page</title>
+    </head>
+    <body>
+        <div style="text-align:center;">
+                <div style = "text-align: left;">
+                    <form action="/main/<%= user_id %>/deleteAcount" method="GET">
+                        <button type="submit">DELETE ACCOUNT</button>        
+                    </form>
+                </div>
+                <h1><b>My Portfolio</b></h1>
+                <div style = "text-align: left;">
+                    <form action="/logout" method="GET">
+                        <button type="submit">LOGOUT</button>        
+                    </form>
+                </div>
+                <hr>
+                <a href="/resume" style="text-decoration: none"> resume &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/competition" style="text-decoration: none"> competition &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/project" style="text-decoration: none"> project &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/certification" style="text-decoration: none"> certification &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/test" style="text-decoration: none"> test &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/career" style="text-decoration: none"> career &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <hr>
+        </div>
+        <div style="text-align: center;">
+            <h3>Search by keyword</h3>
+            <form action="/main/search" method="POST" style="text-align: center;">
+                <select name="searchBoard"> 
+                    <option value=""> select category </option>
+                    <option value="resume"> resume </option>
+                    <option value="career"> career </option>
+                    <option value="tests"> tests </option>
+                    <option value="competitions"> competitions </option>
+                    <option value="certifications"> certifications </option>
+                    <option value="projects"> projects </option>
+                </select>
+                <input type="text" name="searchKey" placeholder="enter here">
+                <button type="submit">search</button>
+                <br><br>
+                <hr>
+            </form>
+            <br><br>
+        </div>
+        <div style="text-align: center;">
+                <div style="display:inline-block; font-size:20px; margin:0 auto;">
+<<<<<<< HEAD
+                    <table border="1">
+                        <tr><th colspan="7"><h3>Status</h3></th></tr>
+                        <tr>
+                        <% for(var i =0; i < tables.length; i++){ %>
+                            <td><%= tables[i] %></td> 
+                        <% } %>
+                        <td>awarded</td>
+                        </tr>
+                        <tr>
+                        <% for(var i =0; i < counts.length; i++){ %>
+                            <td><%= counts[i]['count'] %></td>
+                        <% } %>
+                        <td><%= comp_counts[0]['sum'] %></td>
+                        </tr> 
+                    </table>
+                    <br><br>
+                    <table>
+                        <tr><th><h3>Profile</h3></th></tr>
+                        <tr><td><%= post['birth'] %></td></tr> 
+                        <tr><td><%= post['email'] %></td></tr>
+                        <tr><td><%= post['phone'] %></td></tr>
+                        <tr><td><%= post['address'] %></td></tr>
+=======
+                    <table style="text-align: left;">
+                        <tr><th><h3 style="text-align: center;">My Profile</h3></th></tr>
+                        <tr><td>birth : <%= post['birth'] %></td></tr> 
+                        <tr><td>e-mail : <%= post['email'] %></td></tr>
+                        <tr><td>phone : <%= post['phone'] %></td></tr>
+                        <tr><td>address : <%= post['address'] %></td></tr>
+>>>>>>> 4c9573b3e0bced7b23f1cf81f01e145c0a3fa4a6
+                    </table>
+                    <a href="/main/<%= user_id %>/edit"><input type="button" value="EDIT PROFILE"></a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>comp detail</title> 
+        <script type="text/javascript" src="app.js"></script>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <h1>competitions</h1>
+            <hr>
+        </div>
+        <div>
+            <h2>글 디테일</h2>
+            <p> 
+                <h4>대회 이름</h4>
+                <%= JSON.stringify(post.comp_name) %>
+                <h4>대회 주최</h4>
+                <%= JSON.stringify(post.comp_org) %>
+            </p>
+        </div>
+        <div style="text-align: center;">
+            <a href='/competition/ <%= post.seq %>/delete'> <input type="button" value="글 삭제"> </a>
+            <a href='/competition/<%= post.seq %>/edit'> <input type="button" value="글 수정"> </a>
+            <a href='../main'> <input type="button" value="main"> </a>
+        </div>
+    </body>
+</html>
