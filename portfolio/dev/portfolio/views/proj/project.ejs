@@ -7,15 +7,20 @@
     </head>
     <body>
         <div style="text-align: center;">
-            <h1> your project</h1>
+            <h1> Project List</h1>
             <hr>
         </div>
         <div>
+            <h2>Name of Project</h2>
+            Press the project name to go to the detailed view.
+            <br><br><br>
             <% for (let i=0 ; i < posts.length ; i++) { %>
-            <p> <a href='/project/<%= posts[i].seq %>'> 프로젝트명</a> :
-                <%= JSON.stringify(posts[i].proj_name) %>
-            </p>
-            <p> url : <%= JSON.stringify(posts[i].url) %></p>
+            <p> 
+                <a href='/project/<%= posts[i].seq %>'><%= JSON.stringify(posts[i].proj_name) %></a> 
+                <br>
+                <% if(posts[i].url) { %>
+                Related URL : <%= JSON.stringify(posts[i].url) %></p>
+                <% } %>
             <br>
             <%}%>
         </div>

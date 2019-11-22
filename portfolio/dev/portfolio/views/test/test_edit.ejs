@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>edit</title>
+    </head>
+    <body>
+        <div>
+                <h2>시험 내용 수정</h2>
+        </div>
+        <div>
+            <form action="/test/<%=post.seq%>/edit" method="POST">
+                <h4> 시험 이름 </h4>
+                <input type="text" name="test_name" value="<%= post.test_name %>">
+                <br>
+                <h4> 점수 or 등급 </h4>
+                <input type="text" name="score" value="<%= post.score %>">
+                <br>
+                <h4> 시험 주최 기관 </h4>
+                <input type="text" name="issuing_org" value="<%= post.issuing_org %>">
+                <br>
+                <h4> 점수 공지 일자</h4>
+                <input type="text" name="issuing_date" value="<%= post.issuing_date %>">
+                <br>
+                <h4> 점수 만료 일자 </h4>
+                <input type="text" name="expiration_date" value="<%= post.expiration_date %>">
+                <br>
+                <h4> 작성자 id </h4>
+                - 확인을 위하여 본인 아이디를 한번 더 입력해주세요 <br>
+                <input type="text" name="user_id">
+                <br><br>
+                <a href=> <input type="submit" value="변경 저장"> </a>
+            </form>
+        </div>
+        <div style="text-align: center;">
+                <a href='/test'> <input type="button" value="목록으로 돌아가기"> </a>
+        </div>
+    </body>
+</html>

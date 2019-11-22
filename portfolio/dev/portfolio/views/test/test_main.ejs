@@ -2,29 +2,28 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>competition</title> 
+        <title>test</title> 
         <script type="text/javascript" src="app.js"></script>
     </head>
     <body>
         <div style="text-align: center;">
-            <h1>Competition Lists</h1>
+            <h1>Test List</h1>
             <hr>
         </div>
         <div>
-            <h2>Name of Competiton</h2>
-            Press the competition name to go to the detailed view.
+            <h2>Name of Test</h2>
+            Press the test name to go to the detailed view.
             <br><br><br>
             <% for (let i=0 ; i < posts.length ; i++) { %>
             <p> 
-                <a href='/competition/<%= posts[i].seq %>'> <%= JSON.stringify(posts[i].comp_name) %></a>
+                <a href='/test/<%= posts[i].seq %>'> <%= JSON.stringify(posts[i].test_name) %></a> 
             </p>
-            <p>Organizer : <%= JSON.stringify(posts[i].comp_org) %></p>
             <br>
             <%}%>
         </div>
         <div style="text-align: center;">
             <p>
-                <a href="/competition/add"><input type="button" value="add comp"></a>
+                <a href="/test/add"><input type="button" value="add test"></a>
                 <a href='../main'> <input type="button" value="main"> </a>
             </p>
         </div>
