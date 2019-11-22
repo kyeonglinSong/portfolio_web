@@ -2,29 +2,51 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>edit</title>
+        <title>Edit Resume</title>
+        <style type="text/css">
+            a:link { color:black; text-decoration: none;}
+            a:visited { color:black; text-decoration: none;}
+            a:hover { color:#29487D; text-decoration: underline;}
+            a { text-decoration:none } 
+         </style>
     </head>
-    <body style="background-color: lightgray;">
-        <div>
-                <h2>공모전 내용 수정</h2>
-        </div>
-        <div>
-            <form action="/resume/<%=post.seq%>/edit" method="POST">
-                <h4> 회사 이름 </h4>
-                <input type="text" name="company" value="<%= post.company %>">
+    <body style="background-color: lightgray; margin:0;">
+            <div style=" background-color: #29487D; color:white; text-align: center; ">
                 <br>
-                <h4> 내용 </h4>
-                <input type="text" name="text" value="<%= post.text %>">
+                <h1>Resume</h1>
                 <br>
-                <h4> 작성자 id </h4>
-                - 확인을 위하여 본인 아이디를 한번 더 입력해주세요 <br>
-                <input type="text" name="user_id">
+            </div>
+            <div>
                 <br><br>
-                <a href=> <input type="submit" value="변경 저장"> </a>
-            </form>
-        </div>
+            </div>
+            <div style="background-color: white;  margin:30px; padding:30px;">
+                    <div>
+                        <div>
+                            <h1>Edit Resume</h1>
+                            <hr>
+                            <br>
+                        </div>
+                            <form action="/resume/<%=post.seq%>/edit" method="POST">
+                                <h3> Company </h3>
+                                <input type="text" name="company" value="<%= post.company %>">
+                                <br><br>
+                                <h3> Text </h3>
+                                <input type="text" name="text" value="<%= post.text %>">
+                                <br><br>
+                                <h3> Your ID </h3>
+                                Please enter your ID again to confirm <br>
+                                <input type="text" name="user_id">
+                                <br><br><br>
+                                <div style="text-align: center;">
+                                        <a href=> <input type="submit" value="save"> </a>
+                                </div>
+
+                            </form>
+                        </div>
+            </div>
+      
         <div style="text-align: center;">
-                <a href='/resume'> <input type="button" value="목록으로 돌아가기"> </a>
+                <a href='/resume'> <input type="button" value="return"> </a>
         </div>
     </body>
 </html>
