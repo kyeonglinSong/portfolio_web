@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8"> 
         <title>Add Competition</title>
         <style type="text/css">
             a:link { color:black; text-decoration: none;}
             a:visited { color:black; text-decoration: none;}
             a:hover { color:#29487D; text-decoration: underline;}
+            a { text-decoration:none } 
          </style>
     </head>
     <body style="background-color: lightgray; margin: 0;">
@@ -19,35 +20,37 @@
             <div style="padding:30px">
                     <div>
                             <h1>Add Competition</h1>
-                            <br>
+                            
                             <hr>
                             <br>
                     </div>
                     <div>
                         <form action="/competition/add" method="post">
-                            <h4> Name of Competition </h4>
+                            <h3> Name of Competition </h3>
                             <input type="text" name="comp_name">
-                            <br>
-                            <h4> Organizer </h4>
+                            <br><br>
+                            <h3> Organizer </h3>
                             <input type="text" name="comp_org">
-                            <br>
-                            <h4> Win (yes:1 / no:0) </h4>
+                            <br><br>
+                            <h3> Win (yes:1 / no:0) </h3>
                             <input type="text" name="awards_check">
-                            <br>
-                            <h4> Awards (if "Win" is 1) </h4>
+                            <br><br>
+                            <h3> Awards (if "Win" is 1) </h3>
                             <input type="text" name="awards_name" value="if none, blank">
-                            <br>
-                            <h4> Related Project (yes:1 / no:0) </h4>
+                            <br><br>
+                            <h3> Related Project (yes:1 / no:0) </h3>
                             <input type="text" name="proj_check">
-                            <br>
-                            <h4> Name of Project (if "Related Project" is 1 ) </h4>
+                            <br><br>
+                            <h3> Name of Project (if "Related Project" is 1 ) </h3>
                             <input type="text" name="proj_name" value="if none, blank">
-                            <br>
-                            <h4> Your ID </h4>
+                            <br><br>
+                            <h3> Your ID </h4>
                             Please enter your ID again to confirm <br>
                             <input type="text" name="user_id">
-                            <br><br>
-                            <input type="submit" value="add">
+                            <br><br><br>
+                            <div style="text-align: center;">
+                                    <a href=> <input type="submit" value="save"> </a>
+                            </div>
                         </form>
                     </div>
             </div>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <head>
+    <head> 
         <meta charset="UTF-8">
         <title>career</title> 
         <script type="text/javascript" src="app.js"></script>
@@ -8,6 +8,7 @@
             a:link { color:black; text-decoration: none;}
             a:visited { color:black; text-decoration: none;}
             a:hover { color:#29487D; text-decoration: underline;}
+            a { text-decoration:none } 
          </style>
     </head>
     <body style="background-color: lightgray; margin:0;">
@@ -25,13 +26,13 @@
                     Press the career name to go to the detailed view.
                     <br><br>
                     <hr>
-                   <br>
+                   <br><br>
             </div>
 
         <ul>
             <% for (let i=0 ; i < posts.length ; i++) { %>
             <p> 
-                <a href='/career/<%= posts[i].seq %>'> <h3><b><%= JSON.stringify(posts[i].org_name) %></b></h3></a>
+                <a href='/career/<%= posts[i].seq %>'> <h3><b>> <%= JSON.stringify(posts[i].org_name) %></b></h3></a>
             </p>
             <p>
                     <%= JSON.stringify(posts[i].start_date) %> - <%= JSON.stringify(posts[i].end_date) %>

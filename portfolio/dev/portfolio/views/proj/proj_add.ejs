@@ -2,33 +2,47 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>프로젝트 추가</title>
+        <title>Add Project</title>
     </head>
-    <body style="background-color: lightgray;">
-        <div>
-                <h2>프로젝트 추가</h2>
-        </div>
-        <div>
-            <form action="/project/add" method="post">
-                <h4> 프로젝트 이름 </h4>
-                <input type="text" name="proj_name">
+    <body style="background-color: lightgray; margin:0;">
+            <div style=" background-color: #29487D; color:white; text-align: center;">
                 <br>
-                <h4> 프로젝트 설명 </h4>
-                <input type="text" name="proj_description" style="width:100px;">
+                <h1>Project</h1>
                 <br>
-                <h4> 프로젝트 관련 URL (없으면 비워주세요) </h4>
-                <input type="text" name="url" value="ex. github 주소">
-                <br>
-                <h4> 작성자 id </h4>
-                - 확인을 위하여 본인의 아이디를 한번 더 입력해주세요 <br>
-                <input type="text" name="user_id">
+            </div>
+            <div>
                 <br><br>
-                <input type="submit" value="프로젝트 추가">
-            </form>
-        </div>
-        <div style="text-align: center;">
+            </div>
+            <div style="background-color: white;  margin:30px; padding: 30px;">
+                    <div>
+                            <h1>Add Project</h1>
+                            <hr>
+                            <br>
+                            <form action="/project/add" method="post">
+                                <h3> Project </h3>
+                                <input type="text" name="proj_name">
+                                <br>
+                                <h3> Description </h3>
+                                <input type="text" name="proj_description" style="width:100px;">
+                                <br>
+                                <h3> Related URL </h3>
+                                <input type="text" name="url" value="ex. github address">
+                                <br>
+                                <h3> Your ID </h3>
+                                Please enter your ID again to confirm <br>
+                                <input type="text" name="user_id">
+                                <br><br>
+                                <div style="text-align: center;">
+                                        <input type="submit" value="Add">
+                                </div>
+                               
+                            </form>
+                        </div>
+                    
+            </div>
+          <div style="text-align: center;">
 
-                <a href='/project'> <input type="button" value="목록으로 돌아가기"> </a>
+                <a href='/project'> <input type="button" value="Return"> </a>
         </div>
     </body>
 </html>
