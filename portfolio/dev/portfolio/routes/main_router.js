@@ -25,25 +25,53 @@ router.get('/', (req, res) => {
       `);
     
     } else {  // 로그인 한 상태만 접근가능
+        let tables = [
+            'career', 'certifications', 'projects', 'resume', 'tests', 'competitions'
+        ];
         let sql = "select * from users where user_id=?"
+        
+        let sql3 = "SELECT SUM(awards_check) as sum FROM competitions WHERE user_id=? and awards_check=1 GROUP BY awards_check;"
+        //res.render('main', {user_id:sess.user_id, post:post[0], counts:counts});
         apps.conn.query(sql, [sess.user_id], (err, post) => {
-            //console.log("NEW!")
-            //console.log(post)
-            res.render('main', {user_id:sess.user_id, post:post[0]});
+            if(err){
+                console.log(err);
+                res.status(500).send("internal server error");
+            } else {
+                var i=0;
+                let cnt = 0;
+                let counts = []
+                for(i=0; i<tables.length; i++){
+                    let sql2 = "SELECT COUNT(*) as count FROM "+tables[i]+ " WHERE user_id=?";
+                    apps.conn.query(sql2, [sess.user_id], (err, count) => {
+                        if(err){
+                            console.log(err);
+                            res.status(500).send("internal server error");
+                        }
+                        console.log(count);
+                        cnt++;
+                        counts.push(count[0]);
+                        console.log(cnt)
+                        if(cnt===5){
+                            apps.conn.query(sql3, [sess.user_id], (err, comp_counts)=> {
+                                if(err){
+                                    console.log(err);
+                                    return res.status(500).send("internal server error");
+                                }
+                                else {
+                                    console.log(comp_counts);
+                                    return res.render('main', {user_id:sess.user_id, post:post[0], tables:tables, counts:counts, comp_counts:comp_counts});
+                                }
+                            });
+                        }
+                    })
+                }
+            }
         });
         
-        //console.log(sess);
-    // res.render('main', {user_id:sess.user_id, post: post});
+
 
     }
 });
-
-// router.get('/search', function(req, res){
-//     sess = req.session;
-    
-//     //if(!searchKey) return res.redirect('/main');
-//     res.render('../views/search')
-// });
 
 router.post('/search', function(req, res){
     sess = req.session;
@@ -80,31 +108,7 @@ router.post('/search', function(req, res){
             }
         }
         console.log(results);
-        // if(post.length)
-        // {
-        //     for(var i = 0; i<post.length; i++ )
-        //     {
-        //         //console.log(res[i]);
-        //         resumeDict[resumeDict.length] = {
-        //             'seq' : post[i]['seq'],
-        //             'company' : post[i]['company'],
-        //             'text': post[i]['text']
-        //         };
-        //     }
-        // }
-        // let ok = false;
-        // console.log(resumeDict);
-        // for(var i = 0; i<resumeDict.length; i++ ){
-        //     for(var key in resumeDict[i]){
-        //         if(key == 'seq') continue;
-        //         if(resumeDict[i][key].includes(searchKey)){
-        //             results.push(resumeDict[i]);
-        //             ok = true;
-        //             break;
-        //         }
-        //     }
-        // }
-        // console.log(results);
+
         if(!ok) {
             return res.send(`
               <div style="text-align: center;">
@@ -116,80 +120,5 @@ router.post('/search', function(req, res){
         return res.render('../views/search', {results:results});
     });
 });
-
-router.get('/resume', (req, res) => {
-    //sess = req.session;
-    //console.log(sess);
-    res.render('resume/resume'); //세션에 
-});
-
-router.post('/:user_id/deleteAcount', (req, res) => {
-    sess = req.session;
-    console.log(sess);
-    user_id = sess.user_id;
-
-    var sql = 'delete from users where user_id=?';
-    apps.conn.query(sql, [user_id], (err, result) => {
-        res.redirect('/logout');
-    });
-});
-
-router.get('/:user_id/deleteAcount', (req, res) => {
-    sess = req.session;
-    console.log(sess);
-    res.render('login/deleteAcount', {user_id:sess.user_id}); //세션에 
-});
-
-router.post('/:user_id/edit', (req, res) => {
-    sess = req.session;
-    console.log("EDIT SESS")
-    console.log(sess);
-
-    if(req.body.password!=sess.password){
-        return res.send(`
-        <div style="text-align: center;">
-        <h1>Invalid password...!</h1>
-        <a href="/">Back</a>
-        </div>
-        `);
-    }
-    console.log(req.body);
-    let userinfo = [
-        sess.user_id,
-        sess.password,
-        req.body.birth,
-        req.body.email,
-        req.body.phone,
-        req.body.address,
-        sess.user_id
-    ];
-
-    let sql = 'UPDATE users SET user_id=?, password=?, birth=?, email=?, phone=?, address=? WHERE user_id=?';
-    apps.conn.query(sql, userinfo, (err, result) => {
-        console.log(result);
-        return res.send(`
-        <div style="text-align: center;">
-        <h1>Edit Successfully</h1>
-        <a href="/">Back</a>
-        </div>
-        `);
-    });
-});
-
-router.get('/:user_id/edit', (req, res) => {
-    sess = req.session;
-    console.log(sess);
-    let sql = "select * from users where user_id=?"
-    apps.conn.query(sql, [sess.user_id], (err, post) => {
-        console.log("EDIT!")
-        console.log(post)
-        res.render('login/mypage_edit', {user_id:sess.user_id, post:post[0]});
-    });
-});
-
-// search
-
-// 게시판 라우트정보
-
 
 module.exports = router; // 모듈로 만드는 부분

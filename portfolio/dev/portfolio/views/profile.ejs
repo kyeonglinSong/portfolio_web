@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>my profile</title>
+    </head>
+    <body style="background-color: lightgray;">
+        <div name="header">
+            test
+        </div>
+        <div name="body">
+            user id
+            <%= post.user_id%>p
+
+            <form action="/profile/<%= user_id %>/edit" method="GET">
+                <button type="submit">edit ACCOUNT</button>        
+           </form>
+   </div>
+        </div>
+
+        <div name="footer">
+                <form action="/profile/<%= user_id %>/deleteAcount" method="GET">
+                     <button type="submit">DELETE ACCOUNT</button>        
+                </form>
+        </div>
+    </body>
+</html>

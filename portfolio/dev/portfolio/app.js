@@ -210,6 +210,101 @@ app.post('/signup', (req, res) => {
 //signup END----------------------------------------------------------------------------
 
 
+// -----------profile로 들어가기
+
+app.get('/profile', (req, res) => {
+    sess = req.session;
+
+    if(!sess.logined) {
+       
+        res.send(`
+        <div style="text-align: center;">
+        <h1>Who are you?</h1>
+        <a href="/">Back </a>
+        </div>
+      `);
+    
+    } else {
+
+        var user_id = sess.user_id;
+        let sql = "select * from users where user_id=?"
+        conn.query(sql, [user_id], (err, post) => {
+            res.render('profile', {user_id: sess.user_id, post:post[0]});
+       
+        }); 
+
+    }
+
+})
+// delete account
+app.post('/profile/:user_id/deleteAcount', (req, res) => {
+    sess = req.session;
+    console.log(sess);
+    user_id = sess.user_id;
+
+    var sql = 'delete from users where user_id=?';
+    conn.query(sql, [user_id], (err, result) => {
+        res.redirect('/logout');
+    });
+});
+
+app.get('/profile/:user_id/deleteAcount', (req, res) => {
+    sess = req.session;
+    console.log(sess);
+    res.render('login/deleteAcount', {user_id:sess.user_id}); //세션에 
+});
+
+
+// edit users 
+app.post('/profile/:user_id/edit', (req, res) => {
+    sess = req.session;
+    console.log("EDIT SESS")
+    console.log(sess);
+
+    if(req.body.password!=sess.password){
+        return res.send(`
+        <div style="text-align: center;">
+        <h1>Invalid password...!</h1>
+        <a href="/">Back</a>
+        </div>
+        `);
+    }
+    console.log(req.body);
+    let userinfo = [
+        sess.user_id,
+        sess.password,
+        req.body.birth,
+        req.body.email,
+        req.body.phone,
+        req.body.address,
+        sess.user_id
+    ];
+
+    let sql = 'UPDATE users SET user_id=?, password=?, birth=?, email=?, phone=?, address=? WHERE user_id=?';
+    conn.query(sql, userinfo, (err, result) => {
+        console.log(result);
+        return res.send(`
+        <div style="text-align: center;">
+        <h1>Edit Successfully</h1>
+        <a href="/">Back</a>
+        </div>
+        `);
+    });
+});
+
+app.get('/profile/:user_id/edit', (req, res) => {
+    sess = req.session;
+    console.log(sess);
+    let sql = "select * from users where user_id=?"
+    conn.query(sql, [sess.user_id], (err, post) => {
+        console.log("EDIT!")
+        console.log(post)
+        res.render('login/mypage_edit', {user_id:sess.user_id, post:post[0]});
+    });
+});
+
+/// ---- profile 끝
+
 //----------------- 1/6. competition 게시판 ----------------------------------------------
 
 // 1-1. competiton 게시판 글 생성
