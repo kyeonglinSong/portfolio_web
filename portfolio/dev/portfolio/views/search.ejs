@@ -1,16 +1,38 @@
 <!DOCTYPE html>
+<style type="text/css">
+    a:link { color:white; text-decoration: none;}
+    a:visited { color:white; text-decoration: none;}
+    a:hover { color: skyblue; text-decoration: underline;}
+</style>
 <html>
     <head>
-        <title>Search Results</title>
+        <title><%= searchBoard %> : Search Results</title>
     </head>
-    <body style="background-color: lightgray;">
-        <div style="text-align: center;">
-                <h1><b>Search Results</b></h1>
-                <hr>
+    <body style="background-color: lightgray;margin:0;">
+        <div style="padding:10px; background-color: #29487D; color:white;">
+            <div style="text-align:center;" >
+                    <h1 style="font-size: 50px"><b>My Portfolio</b></h1>
+            </div>
+            <div style="text-align:center;">
+                <a href="/profile" style="text-decoration: none"> <b>profile</b> &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/resume" style="text-decoration: none"> <b>resume</b> &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/competition" style="text-decoration: none"> <b>competition</b> &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/project" style="text-decoration: none"> <b>project</b> &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/certification" style="text-decoration: none"> <b>certification</b> &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/test" style="text-decoration: none"> <b>test</b> &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <a href="/career" style="text-decoration: none"> <b>career</b> &nbsp; &nbsp; &nbsp; &nbsp; </a>
+                <br>
+                <br>
+            </div>
         </div>
         <div style="text-align: center;">
+                <h1><b>Search Results  : '<%= searchBoard %>'</b></h1>
+                <hr>
+        </div>
+        <br><br><br>
+        <div style="text-align: center;">
             <div style="display:inline-block; font-size:20px; margin:0 auto;">
-                <table border="1">
+                <table border="1" style="background-color: #e8dcca; border-collapse:collapse; width: 1000px;">
                     <% for(var i =0;i < results.length; i++){ %>
                         <tr>
                         <% for(var key in results[i]){ %>
@@ -21,6 +43,7 @@
                 </table>
             </div>
         </div>
+        <br><br>
         <div style = "text-align: center;">
             <a href='/main'><button type="submit">Main</button></a>
         </div>

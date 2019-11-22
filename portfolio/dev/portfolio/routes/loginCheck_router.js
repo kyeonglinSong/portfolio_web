@@ -7,12 +7,10 @@ const apps = require('../app');
 // func : get user info
 var userInfoDict = {};
 get_userInfo = function(){
-    console.log("test fn")
     userInfoDict = {};
     apps.conn.query(str_query.getUsersID, function(err, res, fields)
     {
         if (err)  return console.log(err);
-        console.log(res);
         if(res.length)
         {
             for(var i = 0; i<res.length; i++ )
@@ -36,7 +34,6 @@ router.get('/', function (req, res) {
 
 
 router.get('/login', (req, res) => {
-    console.log(userInfoDict);
     res.render('../views/login'); 
 });
 
@@ -49,7 +46,6 @@ router.post('/login', (req, res) => {
             sess.user_id = req.body.id;
             sess.password = req.body.pwd;
             res.redirect('/')
-            console.log(sess);
         } 
         else {
             res.send(`
@@ -73,12 +69,10 @@ router.get('/logout', function(req, res){
             if(err){
                 console.log(err);
             }else{
-                console.log("여기 뜸");
                 res.redirect('/');
             }
         });
     }else{
-        console.log("아냐 여기뜸");
         res.redirect('/');
     }
 });

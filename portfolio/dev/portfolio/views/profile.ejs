@@ -1,26 +1,38 @@
 <!DOCTYPE html>
+<style>
+    table {
+      width: 100%;
+      border: 1px solid #444444;
+    }
+</style>
 <html>
     <head>
         <title>my profile</title>
     </head>
-    <body style="background-color: lightgray;">
+    <body style="background-color: lightgray; text-align: center; margin: 0;">
+        <div style=" padding:10px; background-color: #29487D; margin:0; color:white;">
+            <h1 style="text-align: center;"><b>MY PROFILE</b></h1>
+        </div>
+        <br>
         <div name="header">
-            test
+            <h1><%= user_id %> 's profile</h1>
         </div>
+        <br>
+        <table>
+            <tr><td><%= post['birth'] %></td></tr> 
+            <tr><td><%= post['email'] %></td></tr>
+            <tr><td><%= post['phone'] %></td></tr>
+            <tr><td><%= post['address'] %></td></tr>
+        </table>
+        <br><br>
         <div name="body">
-            user id
-            <%= post.user_id%>p
-
             <form action="/profile/<%= user_id %>/edit" method="GET">
-                <button type="submit">edit ACCOUNT</button>        
-           </form>
-   </div>
-        </div>
-
-        <div name="footer">
-                <form action="/profile/<%= user_id %>/deleteAcount" method="GET">
-                     <button type="submit">DELETE ACCOUNT</button>        
-                </form>
-        </div>
+                <button type="submit" style="width:150px;">EDIT ACCOUNT</button>        
+            </form>
+             <form action="/profile/<%= user_id %>/deleteAcount" method="GET">
+                  <button type="submit" style="width:150px;">DELETE ACCOUNT</button>        
+            </form>
+            <a href="/main"><input type="button" value="MAIN" style="width:150px;"></a>
+        </div>        
     </body>
 </html>

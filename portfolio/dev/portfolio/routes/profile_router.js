@@ -50,7 +50,6 @@ router.get('/:user_id/deleteAcount', (req, res) => {
 // edit users 
 router.post('/:user_id/edit', (req, res) => {
     sess = req.session;
-    console.log("EDIT SESS")
     console.log(sess);
 
     if(req.body.password!=sess.password){
@@ -74,7 +73,6 @@ router.post('/:user_id/edit', (req, res) => {
 
     let sql = 'UPDATE users SET user_id=?, password=?, birth=?, email=?, phone=?, address=? WHERE user_id=?';
     apps.conn.query(sql, userinfo, (err, result) => {
-        console.log(result);
         return res.send(`
         <div style="text-align: center;">
         <h1>Edit Successfully</h1>
@@ -89,8 +87,6 @@ router.get('/:user_id/edit', (req, res) => {
     console.log(sess);
     let sql = "select * from users where user_id=?"
     apps.conn.query(sql, [sess.user_id], (err, post) => {
-        console.log("EDIT!")
-        console.log(post)
         res.render('../views/login/mypage_edit', {user_id:sess.user_id, post:post[0]});
     });
 });

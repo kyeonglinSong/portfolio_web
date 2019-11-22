@@ -28,10 +28,9 @@ router.get('/', (req, res) => {
         let tables = [
             'career', 'certifications', 'projects', 'resume', 'tests', 'competitions'
         ];
-        let sql = "select * from users where user_id=?"
-        
+        let sql = "select * from users where user_id=?" 
         let sql3 = "SELECT SUM(awards_check) as sum FROM competitions WHERE user_id=? and awards_check=1 GROUP BY awards_check;"
-        //res.render('main', {user_id:sess.user_id, post:post[0], counts:counts});
+
         apps.conn.query(sql, [sess.user_id], (err, post) => {
             if(err){
                 console.log(err);
@@ -47,10 +46,8 @@ router.get('/', (req, res) => {
                             console.log(err);
                             res.status(500).send("internal server error");
                         }
-                        console.log(count);
                         cnt++;
                         counts.push(count[0]);
-                        console.log(cnt)
                         if(cnt===5){
                             apps.conn.query(sql3, [sess.user_id], (err, comp_counts)=> {
                                 if(err){
@@ -58,8 +55,6 @@ router.get('/', (req, res) => {
                                     return res.status(500).send("internal server error");
                                 }
                                 else {
-                                    //if(!comp_counts) comp_counts = [{'sum':0}];
-                                    console.log(comp_counts);
                                     return res.render('main', {user_id:sess.user_id, post:post[0], tables:tables, counts:counts, comp_counts:comp_counts});
                                 }
                             });
@@ -76,31 +71,22 @@ router.get('/', (req, res) => {
 
 router.post('/search', function(req, res){
     sess = req.session;
-    console.log(req.body);
     var results = [];
     var searchBoard = req.body.searchBoard;
-    console.log(typeof select)
     var searchKey = req.body.searchKey;
+    let sql = "SELECT * FROM "+searchBoard+" WHERE user_id=?;"
 
     console.log("search key : "+searchKey);
 
-    //let results = [];
-    let sql = "SELECT * FROM "+searchBoard+" WHERE user_id=?;"
-    console.log(sql);
-    
     apps.conn.query(sql, [sess.user_id], function(err, post, fields)
     {
         if (err)  return console.log(err);
 
         let ok = false;
 
-        console.log(post);
-
         for(var i = 0; i<post.length; i++ ){
-            //console.log(p);
             for(var key in post[i]){
                 if(typeof post[i][key] !== 'string') continue;
-                console.log(post[i][key])
                 if(post[i][key].includes(searchKey)){
                     results.push(post[i]);
                     ok = true;
@@ -108,7 +94,6 @@ router.post('/search', function(req, res){
                 }
             }
         }
-        console.log(results);
 
         if(!ok) {
             return res.send(`
@@ -118,7 +103,7 @@ router.post('/search', function(req, res){
               </div>
             `);
         }
-        return res.render('../views/search', {results:results});
+        return res.render('../views/search', {results:results, searchBoard:searchBoard});
     });
 });
 
