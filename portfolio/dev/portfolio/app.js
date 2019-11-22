@@ -42,4 +42,3 @@ app.use('/', loginCheck_router);
 app.listen(3000, (req, res) => {
     console.log("server start at port 3000");
 });
-

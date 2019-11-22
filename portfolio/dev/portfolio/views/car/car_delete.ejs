@@ -2,22 +2,33 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>delete</title>
+        <title>Remove</title>
     </head>
-    <body style="background-color: lightgray;">
-        <div style="text-align: center;">
-            <h2> 삭제</h2>
-            <hr>
-        </div>
-        <div style="text-align: center;">
-            <br>
-            <%= post.org_name %> 경력을 정말 삭제하실건가요?
-            <br>
-            <br>
-            <form action="/career/<%= post.seq %>/delete" method="post">
-                <input type="submit" value="YES">
-                <a href="/career/<%= post.seq %>"><input type="button" value="NO"> </a>
-            </form>
-        </div>
+    <body style="background-color: lightgray; margin: 0;">
+            <div style=" background-color: #29487D; color:white; text-align: center;">
+                    <br>
+                    <h1>Career</h1>
+                    <br>
+                </div>
+              <div style="background-color: white; margin:30px; padding: 30px;">
+                    <div style="text-align:center">
+
+                            <div style="text-align: center;">
+                                    <h1> Remove Career</h1>
+                                    <hr>
+                                    <br>
+                                    <h3><%= post.org_name %> - really remove?</h3>
+                                    <br>
+                                    <br>
+                                    <form action="/career/<%= post.seq %>/delete" method="post">
+                                        <input type="submit" value="YES">
+                                        <a href="/career/<%= post.seq %>"><input type="button" value="NO"> </a>
+                                    </form>
+                                </div>
+                      </div>  
+                            
+            </div>
+
+    
     </body>
 </html>

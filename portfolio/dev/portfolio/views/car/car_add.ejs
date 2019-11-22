@@ -3,35 +3,51 @@
     <head>
         <meta charset="UTF-8">
         <title>add career</title>
+        <style type="text/css">
+                a:link { color:black; text-decoration: none;}
+                a:visited { color:black; text-decoration: none;}
+                a:hover { color:#29487D; text-decoration: underline;}
+             </style>
     </head>
-    <body style="background-color: lightgray;">
-        <div>
-                <h2>경력 추가</h2>
+    <body style="background-color: lightgray; margin: 0;">
+            <div style=" background-color: #29487D; color:white; text-align: center;">
+                    <br>
+                    <h1>Career</h1>
+                    <br>
+                </div>
+        <div style="background-color: white; margin:30px; padding: 30px;">
+                <div>
+                        <h1>Add Career</h1>
+                </div>
+                <div>
+                    <form action="/career/add" method="post">
+                        <h4> Organization </h4>
+                        <input type="text" name="org_name">
+                        <br>
+                        <h4> Start </h4>
+                        <input type="text" name="start_date" value="(ex. 970322)">
+                        <br>
+                        <h4> End </h4>
+                        <input type="text" name="end_date" value="(ex. 970322)">
+                        <br>
+                        <h4> Description </h4>
+                        <input type="text" name="career_description">
+                        <br>
+                        <h4> Your ID </h4>
+                        Please enter your ID again to confirm <br>
+                        <input type="text" name="user_id">
+                        <br><br><br>
+                        <div style=" text-align: center;">
+                                <input type="submit" value="add">
+                        </div>
+                    
+                    </form>
+                </div>
         </div>
-        <div>
-            <form action="/career/add" method="post">
-                <h4> 회사/기관 </h4>
-                <input type="text" name="org_name">
-                <br>
-                <h4> 시작 일자 </h4>
-                <input type="text" name="start_date" value="(ex. 970322)">
-                <br>
-                <h4> 종료 일자 </h4>
-                <input type="text" name="end_date" value="(ex. 970322)">
-                <br>
-                <h4> 상세 설명 </h4>
-                <input type="text" name="career_description">
-                <br>
-                <h4> 작성자 id </h4>
-                - 확인을 위하여 본인의 아이디를 한번 더 입력해주세요 <br>
-                <input type="text" name="user_id">
-                <br><br>
-                <input type="submit" value="글 추가">
-            </form>
-        </div>
+        
         <div style="text-align: center;">
 
-                <a href='/career'> <input type="button" value="목록으로 돌아가기"> </a>
+                <a href='/career'> <input type="button" value="return"> </a>
         </div>
     </body>
 </html>

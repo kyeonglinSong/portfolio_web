@@ -4,33 +4,45 @@
         <meta charset="UTF-8">
         <title>edit</title>
     </head>
-    <body style="background-color: lightgray;">
-        <div>
-                <h2>시험 내용 수정</h2>
+    <body style="background-color: lightgray; margin: 0;">
+            <div style=" background-color: #29487D; color:white; text-align: center;">
+                    <br>
+                    <h1>Career</h1>
+                    <br>
+                </div>
+        <div  style="background-color: white; margin:30px; padding: 30px;">
+                <div>
+                        <h1>Edit Career</h1>
+                        <br>
+                </div>
+                <div>
+                    <form action="/career/<%=post.seq%>/edit" method="POST">
+                        <h3> Organization </h3>
+                        <input type="text" name="org_name" value="<%= post.org_name %>"><br>
+                        <br>
+                        <h3> Start</h3>
+                        <input type="text" name="start_date" value="<%= post.start_date %>"><br>
+                        <br>
+                        <h3> End </h3>
+                        <input type="text" name="end_date" value="<%= post.end_date %>"><br>
+                        <br>
+                        <h3> Description </h3>
+                        <input type="text" name="career_description" value="<%= post.career_description %>"><br>
+                        <br>
+                        <h3> Your ID </h3>
+                         Please enter your ID again to confirm <br>
+                        <input type="text" name="user_id"><br>
+                        <br><br><br>
+                        <div style="text-align: center;">
+                                <a href=> <input type="submit" value="save"> </a>
+                        </div>
+                       
+                    </form>
+                </div>
         </div>
-        <div>
-            <form action="/career/<%=post.seq%>/edit" method="POST">
-                <h4> 기관 이름 </h4>
-                <input type="text" name="org_name" value="<%= post.org_name %>">
-                <br>
-                <h4> 시작 일자</h4>
-                <input type="text" name="start_date" value="<%= post.start_date %>">
-                <br>
-                <h4> 종료 일자 </h4>
-                <input type="text" name="end_date" value="<%= post.end_date %>">
-                <br>
-                <h4> 상세 설명 </h4>
-                <input type="text" name="career_description" value="<%= post.career_description %>">
-                <br>
-                <h4> 작성자 id </h4>
-                - 확인을 위하여 본인 아이디를 한번 더 입력해주세요 <br>
-                <input type="text" name="user_id">
-                <br><br>
-                <a href=> <input type="submit" value="변경 저장"> </a>
-            </form>
-        </div>
+
         <div style="text-align: center;">
-                <a href='/career'> <input type="button" value="목록으로 돌아가기"> </a>
+                <a href='/career'> <input type="button" value="return"> </a>
         </div>
     </body>
 </html>
