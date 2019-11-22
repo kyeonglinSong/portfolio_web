@@ -70,7 +70,7 @@
                             <% for(var i =0; i < counts.length; i++){ %>
                                 <td><%= counts[i]['count'] %></td>
                             <% } %>
-                            <td><%= comp_counts[0]['sum'] %></td>
+                            <td><%= (comp_counts.length==0) ? 0 : comp_counts[0]['sum'] %></td>
                             </tr> 
                         </table>
                         <br><br>

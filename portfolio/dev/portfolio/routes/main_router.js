@@ -58,6 +58,7 @@ router.get('/', (req, res) => {
                                     return res.status(500).send("internal server error");
                                 }
                                 else {
+                                    //if(!comp_counts) comp_counts = [{'sum':0}];
                                     console.log(comp_counts);
                                     return res.render('main', {user_id:sess.user_id, post:post[0], tables:tables, counts:counts, comp_counts:comp_counts});
                                 }
