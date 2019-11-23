@@ -26,7 +26,7 @@
                         <hr>
                         <br><br>
                     <% for (let i=0 ; i < posts.length ; i++) { %>
-                    <p> <h3><b><a href='/certification/<%= posts[i].seq %>'><%= JSON.stringify(posts[i].cert_name) %></b></h3></a>
+                    <p> <h3><b><a href='/certification/<%= posts[i].seq %>'>> <%= JSON.stringify(posts[i].cert_name) %></b></h3></a>
                     </p>
                     <br>
                     <%}%>

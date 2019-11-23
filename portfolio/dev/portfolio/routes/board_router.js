@@ -45,6 +45,7 @@ router.get(['/competition', '/competition/:seq'],(req, res) => {
     {
         res.send(`
         <h1>Who are you?</h1>
+        please login first
         <a href="/">Back </a>
       `);
     
@@ -193,6 +194,7 @@ router.get(['/project', '/project/:seq'],(req, res) => {
     {
         res.send(`
         <h1>Who are you?</h1>
+        please login first
         <a href="/">Back </a>
       `);
     
@@ -338,6 +340,7 @@ router.get(['/resume', '/resume/:seq'],(req, res) => {
     {
         res.send(`
         <h1>Who are you?</h1>
+        please login first
         <a href="/">Back </a>
       `);
     
@@ -484,6 +487,7 @@ router.get(['/certification', '/certification/:seq'],(req, res) => {
     {
         res.send(`
         <h1>Who are you?</h1>
+        please login first
         <a href="/">Back </a>
       `);
     
@@ -632,6 +636,7 @@ router.get(['/test', '/test/:seq'],(req, res) => {
     {
         res.send(`
         <h1>Who are you?</h1>
+        please login first
         <a href="/">Back </a>
       `);
     
@@ -779,6 +784,7 @@ router.get(['/career', '/career/:seq'],(req, res) => {
     {
         res.send(`
         <h1>Who are you?</h1>
+        please login first
         <a href="/">Back </a>
       `);
     

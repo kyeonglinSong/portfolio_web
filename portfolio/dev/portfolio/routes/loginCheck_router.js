@@ -50,6 +50,7 @@ router.post('/login', (req, res) => {
         else {
             res.send(`
             <h1>Who are you?</h1>
+            please login first
             <a href="/">Back </a>
             `);
         }
@@ -57,6 +58,7 @@ router.post('/login', (req, res) => {
     else {
     res.send(`
       <h1>Who are you?</h1>
+      please login first
       <a href="/">Back </a>
     `);}
 });

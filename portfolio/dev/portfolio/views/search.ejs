@@ -25,24 +25,25 @@
                 <br>
             </div>
         </div>
-        <div style="text-align: center;">
-                <h1><b>Search Results  : '<%= searchBoard %>'</b></h1>
-                <hr>
-        </div>
-        <br><br><br>
-        <div style="text-align: center;">
-            <div style="display:inline-block; font-size:20px; margin:0 auto;">
-                <table border="1" style="background-color: #e8dcca; border-collapse:collapse; width: 1000px;">
-                    <% for(var i =0;i < results.length; i++){ %>
-                        <tr>
-                        <% for(var key in results[i]){ %>
-                            <td><%= results[i][key] %></td>  
+        <div style="background-color: white;  margin:30px; padding:30px;">
+                <div style="text-align: center;">
+                        <h1><b>Search Results</b></h1>
+                        <br><hr><br>
+                        <h1><b>'<%= searchBoard %>' </b></h1>
+                        <br><br>
+                </div>
+                <table border="1" style="background-color: white; border-collapse:collapse; width: 1000px;">
+                        <% for(var i =0;i < results.length; i++){ %>
+                            <tr>
+                            <% for(var key in results[i]){ %>
+                                <td><%= results[i][key] %></td>  
+                            <% } %>
+                            </tr>
                         <% } %>
-                        </tr>
-                    <% } %>
-                </table>
-            </div>
+                    </table>
+                    <br><br>
         </div>
+      
         <br><br>
         <div style = "text-align: center;">
             <a href='/main'><button type="submit">Main</button></a>
