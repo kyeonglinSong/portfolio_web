@@ -1,0 +1,33 @@
+5decf73 was Dokyung Lee, 26분 전, message: change id, pwd 'team02'
+4b31804 was Dokyung Lee, 2시간 전, message: 200 records complete-modified
+71dcf37 was Dokyung Lee, 2시간 전, message: 200 records complete-modified
+5a3dd77 was Dokyung Lee, 3시간 전, message: 200 records complete
+3d35076 was Kyeonglin, 4시간 전, message: db creation schema update
+16b39f4 was Dokyung Lee, 5시간 전, message: db initialize txt file
+0e39e71 was Dokyung Lee, 5시간 전, message: db initialize txt 파일 추가
+a6d4184 was Kyeonglin, 28시간 전, message: 남은 프론트 수정
+64c4999 was Dokyung Lee, 2일 전, message: Merge branch 'middle' of https://github.com/kyeonglinSong/portfolio_web into middle
+94a3034 was Dokyung Lee, 2일 전, message: final
+0ee1132 was Kyeonglin, 2일 전, message: 게시판 프론트 수정
+79171dd was Kyeonglin, 2일 전, message: 프론트 백 합침
+fd40ad9 was Dokyung Lee, 2일 전, message: doky-change-JS-file
+af58f59 was Kyeonglin, 2일 전, message: 거의다함
+b0aaf57 was Kyeonglin, 2일 전, message: 합친거
+4c9573b was Kyeonglin, 2일 전, message: 합쳤당
+5e9d1c6 was Dokyung Lee, 3일 전, message: doky-191122
+a898122 was Kyeonglin, 3일 전, message: project만ㄷ름
+d1c94fa was Kyeonglin, 3일 전, message: project 게시판 만듦
+c398b9d was kyeonglin_Song, 3일 전, message: Update README.md
+6e48280 was kyeonglin_Song, 3일 전, message: Update README.md
+4e12b52 was Kyeonglin, 3일 전, message: auth + crud
+5c3727a was Dokyung Lee, 4일 전, message: 191121-doky
+7811769 was kyeonglin_Song, 4일 전, message: Update README.md
+d1d0d2a was kyeonglin song, 4일 전, message: Merge branch 'kl' of https://github.com/kyeonglinSong/portfolio_web into kl
+6c72a64 was kyeonglin song, 4일 전, message: R,D 구현 / CU 남음
+53d7126 was kyeonglin_Song, 5일 전, message: Delete README2.md
+30f50f8 was kyeonglin_Song, 5일 전, message: Update README.md
+2d3ce91 was kyeonglin_Song, 5일 전, message: Create README2.md
+1e95f31 was kyeonglin_Song, 5일 전, message: Create README.md
+3b71825 was kyeonglin song, 5일 전, message: competition view 추가
+5d5fe4b was kyeonglin song, 5일 전, message: competition GET 메소드 추가
+82baf18 was Dokyung Lee, 6일 전, message: 191118-doky
