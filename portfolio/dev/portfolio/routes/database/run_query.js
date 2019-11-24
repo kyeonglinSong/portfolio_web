@@ -6,9 +6,9 @@ exportsList.getconn = function(){
 
     var conn = mysql.createConnection({
       host     : 'localhost',
-      user     : 'root',
-      password : 'rootroot',
-      database : 'portfolio',
+      user     : 'team02',
+      password : 'team02',
+      database : 'team02',
       dateStrings: 'date'
     });
 
