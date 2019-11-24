@@ -125,9 +125,8 @@ insert into career(org_name, start_date, end_date, career_description, user_id) 
 insert into career(org_name, start_date, end_date, career_description, user_id) values('Google', '180101', '180731', 'GOOGLE의  xx부서에서 인턴을 하였다.', 'Tom');
 insert into career(org_name, start_date, end_date, career_description, user_id) values('CJ', '170101', '170731', 'CJ의  xx부서에서 인턴을 하였다.', 'Irene');
 insert into career(org_name, start_date, end_date, career_description, user_id) values('CJ', '160101', '160731', 'CJ의  xx부서에서 인턴을 하였다.', 'Sandra');
-insert into career(org_name, start_date, end_date, career_description, user_id) values('INTEL', '150101', '150731', 'INTEL의  xx부서에서 인턴을 하였다.', 'Lucia');
-insert into career(org_name, start_date, end_date, career_description, user_id) values('Shinhan, '170101', '170731', '신한은행의  xx부서에서 인턴을 하였다.', 'Lauren');
-insert into career(org_name, start_date, end_date, career_description, user_id) values('NEXON', '180101', '180731', 'NEXON의  xx부서에서 인턴을 하였다.', 'Andy');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('INTEL', '150101', '150731', 'INTEL의 xx부서에서 인턴을 하였다.', 'Lucia');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('Shinhan', '170101', '170731', '신한은행의 xx부서에서 인턴을 하였다.', 'Lauren');
 insert into career(org_name, start_date, end_date, career_description, user_id) values('Ericsson', '190101', '190731', 'Ericsson의  xx부서에서 인턴을 하였다.', 'Suky');
 insert into career(org_name, start_date, end_date, career_description, user_id) values('Ericsson', '190101', '190731', 'Ericsson의  xx부서에서 인턴을 하였다.', 'Gukky');
 
