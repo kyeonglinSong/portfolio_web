@@ -172,7 +172,7 @@ insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_ch
 
 insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('ICT Hackaton', 'Samsung', 1, 'gold medal', '1', 'name project', 'Dokyung');
 insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('ICT Hackaton', 'Samsung', 1, 'gold medal', 1, 'name project', 'Lucia');
-insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('ICT Hackaton, 'Samsung', 1, 'first prize', 1, 'name project', 'Suky');
+insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('ICT Hackaton', 'Samsung', 1, 'first prize', 1, 'name project', 'Suky');
 insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('ICT Hackaton', 'Samsung', 1, 'first prize', 1, 'name project', 'Irene');
 insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('ICT Hackaton', 'Samsung', 1, 'gold medal', 1, 'name project', 'Lauren');
 insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, user_id) values('Name ideation', 'Samsung', 1, 'silver medal', 0, 'Andy');
