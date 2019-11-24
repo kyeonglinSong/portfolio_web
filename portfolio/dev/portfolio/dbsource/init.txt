@@ -1,3 +1,4 @@
+CREATE SCHEMA `team02` ;
 USE team02;
 CREATE TABLE `users` (
 	user_id VARCHAR(40) NOT NULL,
@@ -63,3 +64,109 @@ expiration_date DATE,
 user_id VARCHAR(40) NOT NULL,
 FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
+
+insert into users values ('Kyeonglin', '12345', '970322', 'selina@naver.com', '010-8888-8888', ', 11234, Goyang-si, Gyunggi-do,Korea');
+insert into users values ('selina', '12345', '970101', 'selina@naver.com', '010-1234-5678', ', 11111, Goyang-si, Gyunggi-do,Korea');
+insert into users values ('Kune', '12345', '970221', 'kune@naver.com', '010-4321-5678', ', 82761, Goyang-si, Gyunggi-do,Korea');
+insert into users values ('James', '12345', '900101', 'james@naver.com', '010-3456-5433', ', 24680, Seoul-si,,Korea');
+insert into users values ('Tomas', '12345', '910710', 'tomas@naver.com', '010-1222-3333', ', 13579, Seoul-si,,Korea');
+insert into users values ('Carol', '12345', '920831', 'carol@naver.com', '010-9876-5432', ', 24567, Seoul-si,,Korea');
+insert into users values ('Cindy', '12345', '930423', 'cindy@naver.com', '010-4444-2222', ', 54332, Goyang-si, Gyunggi-do,Korea');
+insert into users values ('Lucy', '12345', '940503', 'lucy@naver.com', '010-5555-6666', ', 98765, Goyang-si, Gyunggi-do,Korea');
+insert into users values ('Rose', '12345', '950611', 'rose@naver.com', '010-7777-7777', ', 1234, Seoul-si,,Korea');
+insert into users values ('Lilly', '12345', '960707', 'lilly@naver.com', '010-8888-8888', ', 27625, Seoul-si,,Korea');
+
+insert into career(org_name, start_date, end_date, career_description, user_id) values('MS', '190101', '190731', 'MS의  xx부서에서 인턴을 하였다.', 'selina');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('MS', '180101', '180731', 'MS의  xx부서에서 인턴을 하였다.', 'selina');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('MS', '180101', '180731', 'MS의  xx부서에서 인턴을 하였다.', 'Kyeonglin');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('Samsung', '170101', '170731', 'MS의  xx부서에서 인턴을 하였다.', 'Kyeonglin');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('Samsung', '170101', '170731', 'MS의  xx부서에서 인턴을 하였다.', 'Kune');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('LG', '180101', '180731', 'MS의  xx부서에서 인턴을 하였다.', 'Kune');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('LG', '160101', '160731', 'MS의  xx부서에서 인턴을 하였다.', 'James');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('KT', '170101', '170731', 'MS의  xx부서에서 인턴을 하였다.', 'James');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('KT', '170101', '170731', 'MS의  xx부서에서 인턴을 하였다.', 'Tomas');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('SKT', '160101', '160731', 'MS의  xx부서에서 인턴을 하였다.', 'Tomas');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('SKT', '190101', '190731', 'SKT의  xx부서에서 인턴을 하였다.', 'Cindy');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('Google', '180101', '180731', 'GOOGLE의  xx부서에서 인턴을 하였다.', 'Cindy');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('Google', '180101', '180731', 'GOOGLE의  xx부서에서 인턴을 하였다.', 'Carol');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('LOTTE', '170101', '170731', 'LOTTE의  xx부서에서 인턴을 하였다.', 'Carol');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('LOTTE', '160101', '160731', 'LOTTE의  xx부서에서 인턴을 하였다.', 'Lilly');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('HP', '150101', '150731', 'HP의  xx부서에서 인턴을 하였다.', 'Lilly');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('Korean Bank', '170101', '170731', '한국은행의  xx부서에서 인턴을 하였다.', 'Rose');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('GE Korea', '180101', '180731', 'GE의  xx부서에서 인턴을 하였다.', 'Rose');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('MS', '190101', '190731', 'MS의  xx부서에서 인턴을 하였다.', 'Lucy');
+insert into career(org_name, start_date, end_date, career_description, user_id) values('MS', '190101', '190731', 'MS의  xx부서에서 인턴을 하였다.', 'Lucy');
+
+insert into certifications(cert_name, cert_num, issuing_org, issuing_date, expiration_date, user_id) values('MOS', '123456', 'MS', '190101', '210101', 'Kyeonglin');
+insert into certifications(cert_name, cert_num, issuing_org, issuing_date, expiration_date, user_id) values('MOS', '123456', 'MS', '190101', '210101', 'Kune');
+insert into certifications(cert_name, cert_num, issuing_org, issuing_date, expiration_date, user_id) values('MOS', '23456', 'MS', '190101', '230101', 'Rose');
+insert into certifications(cert_name, cert_num, issuing_org, issuing_date, expiration_date, user_id) values('Oracle', '34567', 'Oracle', '190101', '210101', 'selina');
+insert into certifications(cert_name, cert_num, issuing_org, issuing_date, expiration_date, user_id) values('Oracle', '76544', 'Oracle', '190101', '210101', 'Carol');
+insert into certifications(cert_name, cert_num, issuing_org, issuing_date, expiration_date, user_id) values('AWS cert', '12343', 'AWS', '190101', '210101', 'Cindy');
+insert into certifications(cert_name, cert_num, issuing_org, issuing_date, user_id) values('AWS cert', '145667', 'AWS', '190101',  'James');
+insert into certifications(cert_name, cert_num, issuing_org, issuing_date, user_id) values('MOS', '123456', 'MS', '190101',  'Tomas');
+insert into certifications(cert_name, cert_num, issuing_org, issuing_date, user_id) values('MOS', '123456', 'MS', '190101',  'Lilly');
+
+insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('Name ideation', 'Samsung', 1, 'gold medal', '1', 'name project', 'Kyeonglin');
+insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('Name ideation', 'Samsung', 1, 'gold medal', 1, 'name project', 'Kune');
+insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('Name ideation', 'Samsung', 1, 'first prize', 1, 'name project', 'Carol');
+insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('Name ideation', 'Samsung', 1, 'first prize', 1, 'name project', 'Lucy');
+insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('Name ideation', 'Samsung', 1, 'gold medal', 1, 'name project', 'Rose');
+insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, user_id) values('Name ideation', 'Samsung', 1, 'silver medal', 0, 'Cindy');
+insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, user_id) values('Name ideation', 'Samsung', 1, 'gold medal', 0, 'Lilly');
+insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, user_id) values('Name ideation', 'Samsung', 1, 'silver medal', 0,'Tomas');
+insert into competitions(comp_name, comp_org, awards_check,  proj_check, proj_name, user_id) values('Name ideation', 'Samsung', 0, 1, 'name project', 'selina');
+insert into competitions(comp_name, comp_org, awards_check, proj_check, proj_name, user_id) values('Name ideation', 'Samsung', 0, 1, 'name project', 'James');
+insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('Algorithm competition', 'somewhere', 1, 'first prize', '1', 'algorithm project', 'Kyeonglin');
+insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('Algorithm competition', 'somewhere', 1, 'second prize', '1', 'algorithm project', 'Kune');
+insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('coding competition', 'somewhere', 1, 'second prize', '1', 'algorithm project', 'James');
+insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('coding competition', 'somewhere', 1, 'second prize', '1', 'algorithm project', 'Lilly');
+insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values('coding competition', 'somewhere', 1, 'second prize', '1', 'algorithm project', 'selina');
+
+insert into projects(proj_name, proj_description, url, user_id) values('DB Application project', '2019-2 DB assignment project', 'www.github/aaa', 'Kyeonglin');
+insert into projects(proj_name, proj_description, url, user_id) values('Nodejs project', 'Nodejs Project', 'www.github/aaa', 'Kyeonglin');
+insert into projects(proj_name, proj_description, url, user_id) values('JAVA project', 'JAVA project', 'www.github/bbb', 'Kune');
+insert into projects(proj_name, proj_description, url, user_id) values('Python project', 'Python assignment project', 'www.github/ccc', 'Tomas');
+insert into projects(proj_name, proj_description, url, user_id) values('C project', 'C assignment project', 'www.github/ddd', 'Tomas');
+insert into projects(proj_name, proj_description, url, user_id) values('Python project', 'Python assignment project', 'www.github/abc', 'James');
+insert into projects(proj_name, proj_description, url, user_id) values('python project', 'python assignment project', 'www.github/eee', 'James');
+insert into projects(proj_name, proj_description, url, user_id) values('nodejs project', 'nodejs assignment project', 'www.github/bcd', 'Lilly');
+insert into projects(proj_name, proj_description, url, user_id) values('DB Application project', '2019-2 DB assignment project', 'www.github/adg', 'Lilly');
+insert into projects(proj_name, proj_description, url, user_id) values('DB Application project', '2019-2 DB assignment project', 'www.github/asd', 'Rose');
+insert into projects(proj_name, proj_description, url, user_id) values('DB Application project', '2019-2 DB assignment project', 'www.github/qwe', 'Cindy');
+insert into projects(proj_name, proj_description, url, user_id) values('DB Application project', '2019-2 DB assignment project', 'www.github/aec', 'Carol');
+insert into projects(proj_name, proj_description, url, user_id) values('DB Application project', '2019-2 DB assignment project', 'www.github/kll', 'Rose');
+insert into projects(proj_name, proj_description, url, user_id) values('DB Application project', '2019-2 DB assignment project', 'www.github/ade', 'selina');
+insert into projects(proj_name, proj_description, url, user_id) values('C project', 'C assignment project', 'www.github/aaa', 'selina');
+
+insert into resume(company, text, user_id) values('Samsung', 'Q1. ~~~ \n A1. ~~~ \n', 'Kyeonglin');
+insert into resume(company, text, user_id) values('LG', 'Q1. ~~~ \n A1. ~~~ \n', 'Lilly');
+insert into resume(company, text, user_id) values('SKT', 'Q1. ~~~ \n A1. ~~~ \n', 'Lucy');
+insert into resume(company, text, user_id) values('Google', 'Q1. ~~~ \n A1. ~~~ \n', 'Rose');
+insert into resume(company, text, user_id) values('KT', 'Q1. ~~~ \n A1. ~~~ \n', 'Carol');
+insert into resume(company, text, user_id) values('Samsung', 'Q1. ~~~ \n A1. ~~~ \n', 'Cindy');
+insert into resume(company, text, user_id) values('LG', 'Q1. ~~~ \n A1. ~~~ \n', 'James');
+insert into resume(company, text, user_id) values('HYUNDAE', 'Q1. ~~~ \n A1. ~~~ \n', 'Tomas');
+insert into resume(company, text, user_id) values('KT', 'Q1. ~~~ \n A1. ~~~ \n', 'Kune');
+insert into resume(company, text, user_id) values('Samsung', 'Q1. ~~~ \n A1. ~~~ \n', 'selina');
+insert into resume(company, text, user_id) values('KT', 'Q1. ~~~ \n A1. ~~~ \n', 'Kyeonglin');
+insert into resume(company, text, user_id) values('KT', 'Q1. ~~~ \n A1. ~~~ \n', 'Kune');
+insert into resume(company, text, user_id) values('KT', 'Q1. ~~~ \n A1. ~~~ \n', 'James');
+insert into resume(company, text, user_id) values('KT', 'Q1. ~~~ \n A1. ~~~ \n', 'selina');
+insert into resume(company, text, user_id) values('KT', 'Q1. ~~~ \n A1. ~~~ \n', 'Lilly');
+
+insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values('TOEIC', '900', 'ETS', '190101', '210101', 'Kyeonglin');
+insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values('TOEFL', '110', 'ETS', '180101', '210101', 'Kyeonglin');
+insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values('TOEIC', '900', 'ETS', '180101', '200101', 'Kune');
+insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values('TOEFL', '100', 'ETS', '190101', '210101', 'Kune');
+insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values('TOEIC', '900', 'ETS', '170101', '190101', 'Tomas');
+insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values('TOEFL', '100', 'ETS', '190101', '210101', 'Tomas');
+insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values('TOEIC', '900', 'ETS', '160101', '180101', 'Lilly');
+insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values('TOEFL', '90', 'ETS', '190101', '210101', 'Lilly');
+insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values('TOEIC', '900', 'ETS', '170101', '190101', 'James');
+insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values('TOEFL', '110', 'ETS', '190101', '210101', 'James');
+insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values('TOEIC', '850', 'ETS', '190101', '210101', 'Cindy');
+insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values('TOEIC', '990', 'ETS', '190101', '210101', 'Carol');
+insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values('TOEIC', '700', 'ETS', '190101', '210101', 'selina');
+insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values('TOEIC', '960', 'ETS', '190101', '210101', 'Rose');
+insert into tests(test_name, score, issuing_org, issuing_date, expiration_date, user_id) values('TOEIC', '970', 'ETS', '190101', '210101', 'Lucy');

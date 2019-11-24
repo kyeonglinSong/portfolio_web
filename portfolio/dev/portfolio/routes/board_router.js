@@ -1,12 +1,12 @@
 const express = require('express');
 const path = require('path');
-const str_query = require('./database/all_query');
+const str_query = require('./database/all_query'); // DB와의 연결 부분
 const router = express.Router(); // 라우터 분리
 const apps = require('../app');
 
-//----------------- 1/6. competition 게시판 ----------------------------------------------
+//----------------- 1. competition 게시판 ----------------------------------------------
 
-// 1-1. competiton 게시판 글 생성
+// 1-1. competiton 게시판 글 생성 (C)
 router.get('/competition/add', (req, res) => {
     var sql = 'select * from competitions';
     apps.conn.query(sql, (err, posts, fields) => {
@@ -25,6 +25,7 @@ router.post('/competition/add', (req, res) => {
     var proj_check = req.body.proj_check || req.query.proj_check;
     var proj_name = req.body.proj_name || req.query.proj_name;
     var user_id = req.body.user_id || req.query.user_id;
+    // 게시글 생성을 위한 dynamic query (insert)
     var sql = 'insert into competitions(comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id) values(?, ?, ?, ?, ?, ?, ?)';
     apps.conn.query(sql, [comp_name, comp_org, awards_check, awards_name, proj_check, proj_name, user_id], (err, result, fields)=> {
         if(err){
@@ -51,7 +52,8 @@ router.get(['/competition', '/competition/:seq'],(req, res) => {
     
     }
 else{  // 로그인 한 상태만 접근가능
-    var user_id = sess.user_id;  // 이걸로 내 아이디로 작성한 글만 판별해서 보여줄것임
+    var user_id = sess.user_id; 
+    // SELECT dynamic query
     var sql = 'SELECT * FROM competitions where user_id=?';  
         apps.conn.query(sql, [user_id], (err, posts, fields) => {
             var seq = req.params.seq || req.query.seq;
@@ -76,7 +78,7 @@ else{  // 로그인 한 상태만 접근가능
 });
 
 
-// 1-3. competition 게시글 수정
+// 1-3. competition 게시글 수정 (U : update)
 router.get(['/competition/:seq/edit'], (req, res) => {
     var sql = 'select * from competitions';
     apps.conn.query(sql, (err, posts, fields) => {
@@ -747,7 +749,7 @@ router.post('/test/:seq/delete', (req, res) => {
 
 //----------------- 6. career 게시판 ----------------------------------------------
 
-// 6-1. career 게시판 글 생성
+// 6-1. career 게시판 글 생성 (INSERT)
 router.get('/career/add', (req, res) => {
     var sql = 'select * from career';
     apps.conn.query(sql, (err, posts, fields) => {
@@ -764,6 +766,7 @@ router.post('/career/add', (req, res) => {
     var end_date = req.body.end_date;
     var career_description = req.body.career_description;
     var user_id = req.body.user_id || req.query.user_id;
+    // INSERT를 위한 dinamic query
     var sql = 'insert into career(org_name, start_date, end_date, career_description, user_id) values(?, ?, ?, ?, ?)';
     apps.conn.query(sql, [org_name, start_date, end_date, career_description, user_id], (err, result, fields)=> {
         if(err){
@@ -776,11 +779,11 @@ router.post('/career/add', (req, res) => {
     });
 });
 
-// 6-2. career 게시판 글목록 보기, 글 상세보기
+// 6-2. career 게시판 글목록 보기, 글 상세보기 
 router.get(['/career', '/career/:seq'],(req, res) => {
     sess = req.session;
 
-    if(!sess.logined) // 로그인 안 된 상태라면 접근안됨
+    if(!sess.logined) // 로그인 안 된 상태라면 접근 안됨
     {
         res.send(`
         <h1>Who are you?</h1>
@@ -790,23 +793,23 @@ router.get(['/career', '/career/:seq'],(req, res) => {
     
     }
 else{  // 로그인 한 상태만 접근가능
-    var user_id = sess.user_id;  // 이걸로 내 아이디로 작성한 글만 판별해서 보여줄것임
+    var user_id = sess.user_id;  
     var sql = 'SELECT * FROM career where user_id=?';  
     apps.conn.query(sql, [user_id], (err, posts, fields) => {
             var seq = req.params.seq || req.query.seq;
             // 만약 career/:id 로 들어왔다면 (글 상세보기)
             if(seq) {
+                // SELECT 를 위한 dinamic query
                 var sql = 'SELECT * FROM career WHERE seq=?'; 
                 apps.conn.query(sql, [seq], (err, posts, fields) => {
                     if(err){ // 에러가 있으면
                         console.log(err);
-                    } else { // 에러가 없으면
+                    } else { // 에러가 없으면 결과를 보여준다.
                         res.render('../views/car/car_detail', {posts:posts, post:posts[0]})
                     }
 
                 })
             } else{
-                //res.send(posts);
                 res.render('../views/car/career', {posts:posts});
             }
         });
@@ -815,12 +818,14 @@ else{  // 로그인 한 상태만 접근가능
 });
 
 
-// 6-3. career 게시글 수정
+// 6-3. career 게시글 수정 (UPDATE)
+// GET /career/게시글seq/deit
 router.get(['/career/:seq/edit'], (req, res) => {
     var sql = 'select * from career';
     apps.conn.query(sql, (err, posts, fields) => {
         var seq = req.params.seq;
         if(seq) {
+            // UPDATE할 게시물 SELECT하는 query
             var sql = 'select * from career where seq=?';
             apps.conn.query(sql, [seq], (err, posts, fileds) => {
                 if(err) {
@@ -837,6 +842,7 @@ router.get(['/career/:seq/edit'], (req, res) => {
     });
 });
 
+// POST /career/게시글seq/deit
 router.post(['/career/:seq/edit'], (req, res) => {
     
     var org_name = req.body.org_name;
@@ -845,7 +851,7 @@ router.post(['/career/:seq/edit'], (req, res) => {
     var career_description = req.body.career_description;
     var user_id = req.body.user_id || req.query.user_id;
     var seq = req.params.seq;
-
+    // UPDATE를 수행하는 dynamic query
     var sql = 'update career set org_name=?, start_date=?, end_date=?, career_description=?, user_id=? where seq=?';
     apps.conn.query(sql, [org_name, start_date, end_date, career_description, user_id, seq], (err, posts, fields) => {
         if(err){
@@ -858,7 +864,8 @@ router.post(['/career/:seq/edit'], (req, res) => {
 });
 
 
-// 6-4. career 게시글 삭제
+// 6-4. career 게시글 삭제 (DELETE)
+// GET /caeer/게시글seq/delete
 router.get('/career/:seq/delete', (req, res) => {
     var sql = 'select seq, org_name from career';
     var seq = req.params.seq;
@@ -882,6 +889,7 @@ router.get('/career/:seq/delete', (req, res) => {
 });
 
 // 글 삭제 - yes 버튼을 눌렀을 때 정말 삭제
+// POST /caeer/게시글seq/delete
 router.post('/career/:seq/delete', (req, res) => {
     var seq = req.params.seq;
     var sql = 'delete from career where seq=?';
@@ -891,9 +899,6 @@ router.post('/career/:seq/delete', (req, res) => {
 });
 
 //--------------- 6. career 끝 ----------------------------------------------
-
-
-
 
 module.exports = router; // 모듈로 만드는 부분
 
